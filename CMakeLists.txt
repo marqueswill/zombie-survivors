@@ -16,7 +16,7 @@ else()
 endif()
 
 # Create your game executable target as usual
-add_executable(zombie_survivors ./src/main.cpp)
+add_executable(zombie_survivors ./src/Main.cpp)
 
 # Link to the actual SDL3 library.
 target_link_libraries(zombie_survivors PRIVATE SDL3::SDL3)
