@@ -1,22 +1,23 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(ZombieSurvivors VERSION 1.0 LANGUAGES CXX)
-option(MYGAME_VENDORED "Use vendored libraries" ON)
 
-# set the output directory for built objects.
-# This makes sure that the dynamic library goes into the build directory automatically.
+# Define o diretório de saída dos binários
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 
-if(MYGAME_VENDORED)
-# This assumes the SDL source is available in vendored/SDL
-add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
-else()
-    find_package(SDL3 REQUIRED CONFIG REQUIRED COMPONENTS SDL3-shared)
-endif()
+# Adiciona a flag do C++11 exigida para a disciplina
+list(APPEND CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 
-# Create your game executable target as usual
-add_executable(zombie_survivors ./src/Main.cpp)
+# Adiciona o diretório de include padrão da SDL2 no Linux
+include_directories(/usr/include/SDL2)
+include_directories(./include)
 
-# Link to the actual SDL3 library.
-target_link_libraries(zombie_survivors PRIVATE SDL3::SDL3)
+# Busca todos os arquivos .cpp na pasta src (facilita não precisar listar um por um)
+file(GLOB SOURCES "./src/*.cpp")
+
+# Cria o executável do jogo com os fontes encontrados (ou pode manter apenas ./src/Main.cpp se preferir)
+add_executable(zombie_survivors ${SOURCES})
+
+# Realiza a linkagem com as bibliotecas locais da SDL2 instaladas no sistema
+target_link_libraries(zombie_survivors PRIVATE SDL2 SDL2_image SDL2_ttf SDL2_mixer)

@@ -6,57 +6,68 @@ O jogo tem 7 versões, de acordo com a release atual do desenvolvimento na disci
 
 ## Execução
 
-Para executar o jogo, basta clicar no executável desejado na pasta `dist/`. Para executar pelo terminal:
-
-* **Linux**
+Para executar o jogo, basta acessar a pasta `dist/linux/` e executar o binário gerado. Para executar pelo terminal:
 
 ```bash
-./dist/linux/zombie_survivors_v[numero_versao]
+# Executável padrão exportado
+./dist/zombie_survivors
 
-```
-
-* **Windows**
-
-```cmd
-.\dist\windows\zombie_survivors_v[numero_versao].exe
-
+# Executável exportado com flag de versão (ex: versão 1.0)
+./dist/zombie_survivors-v1.0
 ```
 
 ## Desenvolvimento
 
 ### Requisitos
 
-* Compilador g++
+* g++
 * make
 * cmake
-* [SDL](https://wiki.libsdl.org/SDL3/README-linux)
+* SDL2
+* Ubuntu 26.04
 
 ### Setup
 
-Como o projeto utiliza a biblioteca SDL de forma isolada (vendored), o CMake gerencia a compilação da dependência automaticamente. Não é necessária a instalação manual do SDL no sistema operacional.
+```bash
+sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
+```
 
-### Compilando
+### Comandos
 
-Na raiz do projeto, utilize o `Makefile` para gerar os arquivos de build e compilar o jogo (incluindo o SDL):
+Na raiz do projeto, utilize o `Makefile` para gerar os arquivos de build e compilar o jogo:
+
+**Compilar o projeto:**
+
+Gera o executável na pasta `build/`
 
 ```bash
 make
-
 ```
 
-### Testing
+**Compilar e rodar:**
 
-Para executar o binário recém-compilado:
+Gera o executável na pasta `build/` e executa ele
 
 ```bash
 make run
-
 ```
 
-Para limpar os arquivos gerados pela compilação:
+**Exportar o jogo:**
+
+Gera o executável na pasta `dist/`
+
+É possível anexar versões ou sufixos ao nome do arquivo exportado usando variáveis
+
+```bash
+make export               # Gera: zombie_survivors
+make export VERSION=1.0   # Gera: zombie_survivors-v1.0
+make export SUFFIX=_test  # Gera: zombie_survivors_test
+```
+
+**Limpar arquivos gerados:**
+
+Apaga as pastas `build/` e `dist/`
 
 ```bash
 make clean
-
 ```
-
