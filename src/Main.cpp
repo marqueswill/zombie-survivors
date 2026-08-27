@@ -1,6 +1,9 @@
-#include <iostream>
+#include "Game.h"
 
-int main() {
-    std::cout << "Jogo do Zumbi (muito foda)" << std::endl;
+int main(int argc, char** argv) {
+    Game& game = Game::GetInstance();
+
+    game.Run();
+
     return 0;
 }
