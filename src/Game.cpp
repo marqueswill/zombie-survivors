@@ -59,7 +59,7 @@ void Game::Run() {
     while (!quitRequested) {
         state->Update(0);
         state->Render();
-        SDL_RenderPresent;
+        SDL_RenderPresent(renderer);
         SDL_Delay(33);
         quitRequested = state->QuitRequested();
     }

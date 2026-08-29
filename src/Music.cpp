@@ -10,11 +10,11 @@ Music::Music(std::string file) {
 }
 
 Music::~Music() {
-    if (music == nullptr) {
-        return;
+    Stop(0);
+    if (music != nullptr) {
+        Mix_FreeMusic(music);
+        music = nullptr;
     }
-
-    Mix_FreeMusic(music);
 }
 
 // Mix_PlayMusic recebe uma música e quantas vezes ela deve ser
@@ -22,7 +22,7 @@ Music::~Music() {
 // música não é tocada. Vale notar que a Mixer só suporta uma música sendo
 // tocada por vez: Se outra música já estiver tocando, ela para.
 // Não se esqueça que Mix_Music pode ser nullptr.
-void Music::Play(int times = -1) {
+void Music::Play(int times) {
     if (music == nullptr) {
         // TODO
     }
@@ -35,7 +35,7 @@ void Music::Play(int times = -1) {
 // música parar totalmente é passado como argumento da função, em
 // milissegundos. Vamos deixar default como 1,5 segundos. Caso queria que
 // pare imediatamente, basta passar 0 como argumento
-void Music::Stop(int msToStop = 1500) {
+void Music::Stop(int msToStop) {
     Mix_FadeOutMusic(msToStop);
 }
 
