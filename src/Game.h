@@ -11,6 +11,8 @@
 #include "SDL_include.h"
 #include "State.h"
 
+class State;
+
 class Game {
    public:
     ~Game();

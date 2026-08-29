@@ -6,6 +6,9 @@
 #include "SDL_include.h"
 #include "Sprite.h"
 
+class Sprite;
+class Music;
+
 class State {
    public:
     State();
