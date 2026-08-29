@@ -1,12 +1,15 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
-#define INCLUDE_SDL
-#define INCLUDE_SDL_IMAGE
 #include <string>
 
+#include "Game.h"
 #include "SDL_include.h"
 
+// A classe Sprite encapsula o carregamento e uso de SDL_Textures, o tipo da SDL que contém uma imagem carregada do disco pronta para ser renderizada num SDL_Renderer.Sprite tem quatro atributos :
+// - texture : A imagem em si
+// - width, height : As dimensões da imagem
+// - clipRect : O retângulo de clipping(determina uma parte específica da imagem para ser renderizada)
 class Sprite {
    public:
     Sprite();
