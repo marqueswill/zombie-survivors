@@ -2,8 +2,8 @@
 
 State::State() {
     quitRequested = false;
-    bg = new Sprite();
-    music = new Music("");
+    bg = Sprite();
+    music = Music("");
 }
 
 // Retorna o valor da flag de mesmo nome na função, que
