@@ -1,6 +1,7 @@
 #ifndef MUSIC_H
 #define MUSIC_H
 
+#include <iostream>
 #include <string>
 
 #define INCLUDE_SDL_MIXER

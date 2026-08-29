@@ -2,10 +2,8 @@
 #define GAME_H
 
 #define INCLUDE_SDL
-#define INCLUDE_SDL_IMAGE
-#define INCLUDE_SDL_MIXER
-#define INCLUDE_SDL_TTF
 
+#include <iostream>
 #include <string>
 
 #include "SDL_include.h"
@@ -13,6 +11,13 @@
 
 class State;
 
+// Game é responsável por inicializar recursos, rodar o loop principal do
+// jogo e liberar os recursos quando o jogo for encerrado;
+//
+// A classe Game implementa as funções básicas da nossa engine,
+// incluindo o main game loop, e a inicialização dos subsistemas (no caso, SDL,
+// SDL_image e SDL_mixer) que precisaremos para outras classes
+// funcionarem
 class Game {
    public:
     ~Game();
@@ -22,7 +27,6 @@ class Game {
     static Game& GetInstance();
 
    private:
-    // Construtor privado (Singleton)
     Game(std::string title, int width, int height);
 
     static Game* instance;

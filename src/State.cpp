@@ -1,9 +1,7 @@
 #include "State.h"
 
-State::State() {
-    quitRequested = false;
-    bg = Sprite();
-    music = Music("../assets/audio/BGM.wav");
+State::State() : bg("assets/img/Background.png"), music("assets/audio/BGM.wav"), quitRequested(false) {
+    music.Play(-1);
 }
 
 // Retorna o valor da flag de mesmo nome na função, que
@@ -31,4 +29,6 @@ void State::Update(float dt) {
 
 // Trata a renderização do estado do jogo.
 // Isso inclui entidades, cenários, HUD, entre outros.
-void State::Render() {}
+void State::Render() {
+    bg.Render(0, 0);
+}

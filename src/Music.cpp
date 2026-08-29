@@ -23,11 +23,9 @@ Music::~Music() {
 // tocada por vez: Se outra música já estiver tocando, ela para.
 // Não se esqueça que Mix_Music pode ser nullptr.
 void Music::Play(int times) {
-    if (music == nullptr) {
-        // TODO
+    if (music != nullptr) {
+        Mix_PlayMusic(music, times);
     }
-
-    Mix_PlayMusic(music, times);
 }
 
 // Mix_FadeOutMusic para a música atual dando um efeito de fade, isto
@@ -42,11 +40,15 @@ void Music::Stop(int msToStop) {
 // Carrega a música indicada no arquivo file. Lembre-se de tratar o caso
 // em que nullptr é retornado
 void Music::Open(std::string file) {
-    if (music == nullptr) {
-        return;
+    if (music != nullptr) {
+        Mix_FreeMusic(music);
     }
 
     music = Mix_LoadMUS(file.c_str());
+
+    if (music == nullptr) {
+        std::cerr << "Erro ao carregar música: " << Mix_GetError() << std::endl;
+    }
 }
 
 bool Music::IsOpen() {
