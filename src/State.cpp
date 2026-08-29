@@ -3,7 +3,7 @@
 State::State() {
     quitRequested = false;
     bg = Sprite();
-    music = Music("");
+    music = Music("../assets/audio/BGM.wav");
 }
 
 // Retorna o valor da flag de mesmo nome na função, que
