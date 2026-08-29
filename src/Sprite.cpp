@@ -28,11 +28,10 @@ void Sprite::Open(std::string file) {
 
     SDL_Renderer* renderer = Game::GetInstance().GetRenderer();
     const char* path = file.c_str();
-    SDL_Texture* texture = IMG_LoadTexture(renderer, path);
+    texture = IMG_LoadTexture(renderer, path);
 
     if (texture == nullptr) {
-        // TODO: Trate o caso de IMG_LoadTexture retornar nullptr. É uma das
-        // causas mais comuns de crashes nos trabalhos da disciplina
+        std::cerr << "Erro ao carregar textura: " << IMG_GetError() << std::endl;
     }
 
     SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
