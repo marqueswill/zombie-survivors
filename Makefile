@@ -36,7 +36,16 @@ export: all
 	@cp $(EXEC_PATH) $(EXPORT_DEST)
 	@echo "> Exportado com sucesso para: $(EXPORT_DEST)"
 
+install:
+	@echo "Instalando dependências da SDL2..."
+	@sudo apt-get install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
+
+update:
+	@echo "Atualizando pacotes e dependências da SDL2..."
+	@sudo apt-get update
+	@sudo apt-get install --only-upgrade -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
+
 clean:
 	@rm -rf $(BUILD_DIR) $(DIST_DIR)
 
-.PHONY: all run export clean
+.PHONY: all run export install update clean
