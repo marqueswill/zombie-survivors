@@ -11,14 +11,21 @@ Game::Game(std::string title, int width, int height) {
 
     instance = this;
 
+    // TODO: tratamento erros inicialização
+
     /* Inicializa todas as bibliotecas */
-    SDL_Init(SDL_INIT_EVERYTHING);
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);
     IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
     Mix_Init(MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_OGG);
     TTF_Init();
 
-    SDL_Window* SDL_CreateWindow(const char* title, int x, int y, int width, int height, Uint32 flags);
-    SDL_Renderer* SDL_CreateRenderer(SDL_Window * window, int index, Uint32 flags);
+    Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
+    Mix_AllocateChannels(32);
+
+    window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+    state = new State();
 }
 
 Game::~Game() {
@@ -67,9 +74,9 @@ State& Game::GetState() {
 }
 
 Game& Game::GetInstance() {
-    if (instance == nullptr) {  // se não foi instanciado, cria o jogo
+    if (instance == nullptr) {  // se não foi instanciado
         instance = new Game("221020940", 1200, 900);
     }
 
-    return *instance;  // retorna ponteiro
+    return *instance;
 }
