@@ -47,6 +47,15 @@ Game::~Game() {
 }
 
 void Game::Run() {
+    bool quitRequested = state->QuitRequested();
+
+    while (!quitRequested) {
+        state->Update(0);
+        state->Render();
+        SDL_RenderPresent;
+        SDL_Delay(33);
+        quitRequested = state->QuitRequested();
+    }
 }
 
 SDL_Renderer* Game::GetRenderer() {
