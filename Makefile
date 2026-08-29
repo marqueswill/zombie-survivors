@@ -3,7 +3,7 @@ DIST_DIR = dist
 APP_NAME = zombie_survivors
 
 # Caminho do executável compilado 
-EXEC_PATH = $(BUILD_DIR)/Debug/$(APP_NAME)
+EXEC_PATH = $(BUILD_DIR)/$(APP_NAME)
 
 # --- Construção do nome de exportação ---
 EXPORT_NAME = $(APP_NAME)

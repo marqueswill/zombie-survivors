@@ -2,6 +2,10 @@
 #define GAME_H
 
 #define INCLUDE_SDL
+#define INCLUDE_SDL_IMAGE
+#define INCLUDE_SDL_MIXER
+#define INCLUDE_SDL_TTF
+
 #include <string>
 
 #include "SDL_include.h"
