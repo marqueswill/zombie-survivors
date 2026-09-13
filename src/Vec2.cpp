@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+// Vec2 expressa um vetor no R2, que pode tanto representar uma posição no
+// espaço como uma grandeza.
 Vec2::Vec2() {
     x = 0.0f;
     y = 0.0f;
