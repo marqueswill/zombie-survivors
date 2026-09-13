@@ -27,8 +27,8 @@ Rect Rect::mult(float a) const {
 }
 
 Vec2 Rect::getCenter() const {
-    float x_center = (x + w) / 2.0f;
-    float y_center = (y + h) / 2.0f;
+    float x_center = x + w / 2.0f;
+    float y_center = y + h / 2.0f;
 
     return Vec2(x_center, y_center);
 }
@@ -71,9 +71,9 @@ Rect& Rect::operator-=(const Rect& r2) {
 }
 
 Rect Rect::operator+(const Vec2& v2) const {
-    return add(Rect(v2.x, v2.y, 0, 0));
+    return add(Rect(v2.x, v2.y, w, h));
 }
 
 Rect Rect::operator-(const Vec2& v2) const {
-    return sub(Rect(v2.x, v2.y, 0, 0));
+    return sub(Rect(v2.x, v2.y, w, h));
 }

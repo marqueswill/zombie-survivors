@@ -5,6 +5,7 @@
 
 // Rect expressa uma posição (canto superior esquerdo do retângulo) e dimensões.
 class Rect {
+   public:
     Rect();
     Rect(float x, float y, float w, float h);
 
