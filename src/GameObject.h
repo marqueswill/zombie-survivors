@@ -5,8 +5,10 @@
 #include <memory>
 #include <vector>
 
-#include "Component.h"
 #include "Rect.h"
+
+class Component;
+
 // GameObject é um agrupador de lógicas que estarão implementadas em
 // seus componentes. Todo GameObject (GO) possui uma posição no jogo (box).
 class GameObject {
@@ -39,7 +41,7 @@ template <typename T>
 T* GameObject::GetComponent() {
     long unsigned int index;
     for (index = 0; index < components.size(); index++) {
-        T* component = dynamic_cast<T*>(components[index].get());
+        T* component = dynamic_cast<T*>(components[index]);
         if (component != nullptr) {
             return component;
         }
