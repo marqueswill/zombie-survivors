@@ -10,7 +10,7 @@ class Vec2 {
     Vec2();
     Vec2(float x, float y);
 
-    // Soma, subtração e multiplicação por escalar
+    // Operações
     Vec2 add(const Vec2& other) const;
     Vec2 sub(const Vec2& other) const;
     Vec2 mult(float a) const;
@@ -33,10 +33,10 @@ class Vec2 {
     // Rotação
     Vec2 rotate(float angle) const;
 
-    // Operadores
+    // Definição operadores
     Vec2 operator+(const Vec2& v2) const;
     Vec2 operator-(const Vec2& v2) const;
-    Vec2 operator*(const float v2) const;
+    Vec2 operator*(const float a) const;
     Vec2& operator+=(const Vec2& v2);
     Vec2& operator-=(const Vec2& v2);
 };

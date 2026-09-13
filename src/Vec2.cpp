@@ -68,8 +68,8 @@ Vec2 Vec2::operator-(const Vec2& v2) const {
     return sub(v2);
 }
 
-Vec2 Vec2::operator*(const float v2) const {
-    return mult(v2);
+Vec2 Vec2::operator*(const float a) const {
+    return mult(a);
 }
 
 Vec2& Vec2::operator+=(const Vec2& v2) {
