@@ -1,7 +1,14 @@
 #include "State.h"
 
-State::State() : bg("assets/img/Background.png"), music("assets/audio/BGM.wav"), quitRequested(false) {
+State::State() {
+    bg = Sprite("assets/img/Background.png");
+    music = Music("assets/audio/BGM.wav");
+    quitRequested = false;
     music.Play(-1);
+}
+
+State::~State() {
+    objectArray.clear();
 }
 
 // Retorna o valor da flag de mesmo nome na função, que
@@ -22,8 +29,18 @@ void State::LoadAssets() {
 // Trata da atualização do estado das entidades, testes de
 // colisões e a checagem relativa ao encerramento do jogo
 void State::Update(float dt) {
+    for (auto& obj : objectArray) {
+        obj->Update(dt);
+    }
+
     if (SDL_QuitRequested()) {
         quitRequested = true;
+    }
+
+    for (int i = 0; i < objectArray.size(); i++) {
+        if (objectArray[i]->IsDead()) {
+            objectArray.erase(std::remove(objectArray.begin(), objectArray.end(), objectArray[i]), objectArray.end());
+        };
     }
 }
 
@@ -31,4 +48,12 @@ void State::Update(float dt) {
 // Isso inclui entidades, cenários, HUD, entre outros.
 void State::Render() {
     bg.Render(0, 0);
+
+    for (int i = 0; i < objectArray.size(); i++) {
+        objectArray[i]->Update(0);
+    }
+}
+
+void State::AddObject(GameObject* go) {
+    objectArray.emplace_back(go);
 }
