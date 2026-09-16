@@ -9,7 +9,7 @@
 
 class Component;
 
-// GameObject é um agrupador de componentes. 
+// GameObject é um agrupador de componentes.
 // Todo GameObject (GO) possui uma posição no jogo (box).
 class GameObject {
    public:
@@ -17,22 +17,20 @@ class GameObject {
     ~GameObject();
 
     Rect box;
-
     bool IsDead();
 
     void Update(float dt);
     void Render();
     void RequestDelete();
 
+    void AddComponent(Component* cpt);
+    void RemoveComponent(Component* cpt);
     template <typename T>
     T* GetComponent();
 
-    void AddComponent(Component* cpt);
-    void RemoveComponent(Component* cpt);
-
    private:
-    std::vector<Component*> components;
-    bool isDead;
+    std::vector<Component*> components;  // Lista de ponteiros para os components do game object
+    bool isDead;                         // Flag para gerenciamento de components
 };
 
 // Retorna um ponteiro para o componente do tipo solicitado que estiver

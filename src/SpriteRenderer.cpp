@@ -5,7 +5,7 @@
 SpriteRenderer::SpriteRenderer(GameObject& associated) : Component(associated), sprite() {
 }
 
-SpriteRenderer::SpriteRenderer(GameObject& associated, std::string file, int frameCountW = 1, int frameCountH = 1)
+SpriteRenderer::SpriteRenderer(GameObject& associated, std::string file, int frameCountW, int frameCountH)
     : Component(associated), sprite(file, frameCountW, frameCountH) {
     associated.box.w = sprite.GetWidth();
     associated.box.h = sprite.GetHeight();

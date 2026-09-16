@@ -4,7 +4,7 @@
 
 State::State() {
     GameObject* bgObject = new GameObject();
-    SpriteRenderer* bgSprite = new SpriteRenderer(*bgObject, "img/ocean.png");
+    SpriteRenderer* bgSprite = new SpriteRenderer(*bgObject, "assets/img/Background.png");
     bgObject->AddComponent(bgSprite);
     AddObject(bgObject);
 
@@ -35,17 +35,22 @@ void State::LoadAssets() {
 // Trata da atualização do estado das entidades, testes de
 // colisões e a checagem relativa ao encerramento do jogo
 void State::Update(float dt) {
-    for (auto& obj : objectArray) {
-        obj->Update(dt);
+    // Percoore o array de objetos atualizando cada um
+    for (int i = 0; i < objectArray.size(); i++) {
+        objectArray[i]->Update(dt);
     }
 
+    // Flag de interrupção
     if (SDL_QuitRequested()) {
         quitRequested = true;
     }
 
-    for (int i = 0; i < objectArray.size(); i++) {
+    // Se um objeto foi morto, eu removo ele do array
+    for (int i = 0; i < objectArray.size();) {
         if (objectArray[i]->IsDead()) {
-            objectArray.erase(std::remove(objectArray.begin(), objectArray.end(), objectArray[i]), objectArray.end());
+            objectArray.erase(objectArray.begin() + i);
+        } else {
+            i++;
         };
     }
 }
@@ -53,10 +58,8 @@ void State::Update(float dt) {
 // Trata a renderização do estado do jogo.
 // Isso inclui entidades, cenários, HUD, entre outros.
 void State::Render() {
-    bg.Render(0, 0);
-
     for (int i = 0; i < objectArray.size(); i++) {
-        objectArray[i]->Update(0);
+        objectArray[i]->Render();
     }
 }
 

@@ -25,9 +25,9 @@ class State {
 
    private:
     // Sprite bg;
+    std::vector<std::unique_ptr<GameObject>> objectArray;
     Music music;
     bool quitRequested;
-    std::vector<std::unique_ptr<GameObject>> objectArray;
 };
 
 #endif
