@@ -1,12 +1,23 @@
 #include "State.h"
 
 #include "SpriteRenderer.h"
+#include "Zombie.h"
 
 State::State() {
     GameObject* bgObject = new GameObject();
     SpriteRenderer* bgSprite = new SpriteRenderer(*bgObject, "assets/img/Background.png");
     bgObject->AddComponent(bgSprite);
     AddObject(bgObject);
+
+    GameObject* enemyObject = new GameObject();
+    SpriteRenderer* enemySprite = new SpriteRenderer(*enemyObject, "assets/img/Enemy.png", 3, 2);
+    Zombie* zombie = new Zombie(*enemyObject);
+    enemySprite->SetFrame(1);
+    enemyObject->box.x = 600;
+    enemyObject->box.y = 450;
+    enemyObject->AddComponent(enemySprite);
+    enemyObject->AddComponent(zombie);
+    AddObject(enemyObject);
 
     music = Music("assets/audio/BGM.wav");
     quitRequested = false;
