@@ -1,16 +1,38 @@
 #include "SpriteRenderer.h"
 
-SpriteRenderer::SpriteRenderer(GameObject& associated) : Component(associated) {
+#include "GameObject.h"
+
+SpriteRenderer::SpriteRenderer(GameObject& associated) : Component(associated), sprite() {
 }
 
-SpriteRenderer::SpriteRenderer(GameObject& associated,
-                               std::string file,
-                               int frameCountW = 1,
-                               int frameCountH = 1) {}
+SpriteRenderer::SpriteRenderer(GameObject& associated, std::string file, int frameCountW = 1, int frameCountH = 1)
+    : Component(associated), sprite(file, frameCountW, frameCountH) {
+    associated.box.w = sprite.GetWidth();
+    associated.box.h = sprite.GetHeight();
+}
 
-void SpriteRenderer::Open(std::string file) {}
-void SpriteRenderer::SetFrameCount(int frameCountW,
-                                   int frameCountH) {}
+void SpriteRenderer::Open(std::string file) {
+    sprite.Open(file);
+    associated.box.w = sprite.GetWidth();
+    associated.box.h = sprite.GetHeight();
+}
+
+void SpriteRenderer::SetFrameCount(int frameCountW, int frameCountH) {
+    sprite.SetFrameCount(frameCountW, frameCountH);
+    associated.box.w = sprite.GetWidth();
+    associated.box.h = sprite.GetHeight();
+}
+
+void SpriteRenderer::SetFrame(int frame) {
+    sprite.SetFrame(frame);
+}
+
 void SpriteRenderer::Update(float dt) {}
-void SpriteRenderer::Render() {}
-void SpriteRenderer::SetFrame(int frame) {}
+
+void SpriteRenderer::Render() {
+    sprite.Render(
+        associated.box.x,
+        associated.box.y,
+        associated.box.w,
+        associated.box.h);
+}

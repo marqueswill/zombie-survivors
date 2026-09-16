@@ -2,15 +2,11 @@
 
 #include "Game.h"
 
-Sprite::Sprite() {
-    texture = nullptr;
+Sprite::Sprite() : texture(nullptr) {
 }
 
-Sprite::Sprite(std::string file, int frameCountW, int frameCountH) {
-    this->frameCountW = frameCountW;
-    this->frameCountH = frameCountH;
-
-    texture = nullptr;
+Sprite::Sprite(std::string file, int frameCountW, int frameCountH)
+    : frameCountW(frameCountW), frameCountH(frameCountH), texture(nullptr) {
     Open(file);
 }
 

@@ -4,7 +4,7 @@
 #include "Component.h"
 #include "Sprite.h"
 
-class SpriteRenderer : Component {
+class SpriteRenderer : public Component {
    public:
     SpriteRenderer(GameObject& associated);
     SpriteRenderer(GameObject& associated,

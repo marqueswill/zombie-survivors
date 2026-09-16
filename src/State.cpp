@@ -1,7 +1,13 @@
 #include "State.h"
 
+#include "SpriteRenderer.h"
+
 State::State() {
-    bg = Sprite("assets/img/Background.png");
+    GameObject* bgObject = new GameObject();
+    SpriteRenderer* bgSprite = new SpriteRenderer(*bgObject, "img/ocean.png");
+    bgObject->AddComponent(bgSprite);
+    AddObject(bgObject);
+
     music = Music("assets/audio/BGM.wav");
     quitRequested = false;
     music.Play(-1);

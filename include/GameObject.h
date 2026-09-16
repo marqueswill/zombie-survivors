@@ -9,8 +9,8 @@
 
 class Component;
 
-// GameObject é um agrupador de lógicas que estarão implementadas em
-// seus componentes. Todo GameObject (GO) possui uma posição no jogo (box).
+// GameObject é um agrupador de componentes. 
+// Todo GameObject (GO) possui uma posição no jogo (box).
 class GameObject {
    public:
     GameObject();
