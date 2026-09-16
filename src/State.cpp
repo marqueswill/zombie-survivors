@@ -10,7 +10,7 @@ State::State() {
 
     music = Music("assets/audio/BGM.wav");
     quitRequested = false;
-    music.Play(-1);
+    // music.Play(-1);
 }
 
 State::~State() {
@@ -36,7 +36,7 @@ void State::LoadAssets() {
 // colisões e a checagem relativa ao encerramento do jogo
 void State::Update(float dt) {
     // Percoore o array de objetos atualizando cada um
-    for (int i = 0; i < objectArray.size(); i++) {
+    for (size_t i = 0; i < objectArray.size(); i++) {
         objectArray[i]->Update(dt);
     }
 
@@ -46,7 +46,7 @@ void State::Update(float dt) {
     }
 
     // Se um objeto foi morto, eu removo ele do array
-    for (int i = 0; i < objectArray.size();) {
+    for (size_t i = 0; i < objectArray.size();) {
         if (objectArray[i]->IsDead()) {
             objectArray.erase(objectArray.begin() + i);
         } else {
@@ -58,7 +58,7 @@ void State::Update(float dt) {
 // Trata a renderização do estado do jogo.
 // Isso inclui entidades, cenários, HUD, entre outros.
 void State::Render() {
-    for (int i = 0; i < objectArray.size(); i++) {
+    for (size_t i = 0; i < objectArray.size(); i++) {
         objectArray[i]->Render();
     }
 }

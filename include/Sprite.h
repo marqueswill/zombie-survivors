@@ -21,19 +21,20 @@ class Sprite {
     bool IsOpen();
 
     void Open(std::string file);
-    void SetClip(int x, int y, int w, int h);
-    void Render(int x, int y, int w, int h);
 
+    void SetClip(int x, int y, int w, int h);
     void SetFrame(int frame);
     void SetFrameCount(int frameCountW, int frameCountH);
 
+    void Render(int x, int y, int w, int h);
+
    private:
-    int width;
-    int height;
-    int frameCountW;  // numero de colunas
-    int frameCountH;  // numero de linhas
-    SDL_Texture* texture;
-    SDL_Rect clipRect;
+    int width;             // Largura da imagem original
+    int height;            // Altura da imagem original
+    int frameCountW;       // Número de colunas na imagem
+    int frameCountH;       // Número de linhas na imagem
+    SDL_Texture* texture;  // Um ponteiro para a imagem real carregada na placa de vídeo
+    SDL_Rect clipRect;     // Recorte da imagem original
 };
 
 #endif

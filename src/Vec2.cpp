@@ -9,10 +9,7 @@ Vec2::Vec2() {
     y = 0.0f;
 }
 
-Vec2::Vec2(float x, float y) {
-    this->x = x;
-    this->y = y;
-}
+Vec2::Vec2(float x, float y) : x(x), y(y) {}
 
 Vec2 Vec2::add(const Vec2& other) const {
     return Vec2(x + other.x, y + other.y);

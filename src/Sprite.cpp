@@ -2,8 +2,7 @@
 
 #include "Game.h"
 
-Sprite::Sprite() : texture(nullptr) {
-}
+Sprite::Sprite() : frameCountW(1), frameCountH(1), texture(nullptr) {}
 
 Sprite::Sprite(std::string file, int frameCountW, int frameCountH)
     : frameCountW(frameCountW), frameCountH(frameCountH), texture(nullptr) {
@@ -19,31 +18,30 @@ Sprite::~Sprite() {
 }
 
 int Sprite::GetWidth() {
-    return width / frameCountW;
+    return clipRect.w;
 }
 
 int Sprite::GetHeight() {
-    return height / frameCountH;
+    return clipRect.h;
 }
 
 // Seleciona qual sub-região da imagem (spritesheet) será exibida
 void Sprite::SetFrame(int frame) {
-    // Converte para pixels
-    int frameWidth = width / frameCountW;
-    int frameHeight = height / frameCountH;
+    // Descobre o tamanho do frame
+    int frameWidth = width / frameCountW;    // Tamanho da imagem dividido pelo numero de colunas
+    int frameHeight = height / frameCountH;  // Tamanho da imagem dividido pelo numero de linhas
+
+    int linhasAPular = frame / frameCountW;   // Offset altura
+    int colunasAPular = frame % frameCountW;  // Offset largura
 
     // Coordenadas x e y iniciais do frame
-    int linhasAPular = frame / frameCountW;
-    int colunasAPular = frame % frameCountW;
-
-    // Converte para pixels
-    int x = colunasAPular * frameWidth;
-    int y = linhasAPular * frameHeight;
+    int x = colunasAPular * frameWidth;  // Offset horizontal
+    int y = linhasAPular * frameHeight;  // Offset vertical
 
     if ((x >= 0 && y >= 0) &&
-        ((x + frameWidth) <= width) &&    // não pode ultrapassar o width
-        ((y + frameHeight) <= height)) {  // não pode ultrapassar o height
-        SetClip(x, y, frameCountW, frameCountH);
+        ((x + frameWidth) <= width) &&           // Não pode ultrapassar o width do sprite
+        ((y + frameHeight) <= height)) {         // Não pode ultrapassar o height do sprite
+        SetClip(x, y, frameWidth, frameHeight);  // Faz o "recorte" do spritesheet
     }
 }
 
@@ -73,7 +71,7 @@ void Sprite::Open(std::string file) {
     }
 
     SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
-    SetClip(0, 0, width, height);
+    SetFrame(0);
 }
 
 // Seta clipRect com os parâmetros dados

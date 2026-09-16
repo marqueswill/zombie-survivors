@@ -7,8 +7,10 @@ SpriteRenderer::SpriteRenderer(GameObject& associated) : Component(associated), 
 
 SpriteRenderer::SpriteRenderer(GameObject& associated, std::string file, int frameCountW, int frameCountH)
     : Component(associated), sprite(file, frameCountW, frameCountH) {
+    // Altura e largura do box do GO são herdados do próprio sprite
     associated.box.w = sprite.GetWidth();
     associated.box.h = sprite.GetHeight();
+    SetFrame(0);
 }
 
 void SpriteRenderer::Open(std::string file) {
