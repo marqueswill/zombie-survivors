@@ -6,7 +6,10 @@ Sprite::Sprite() {
     texture = nullptr;
 }
 
-Sprite::Sprite(std::string file) {
+Sprite::Sprite(std::string file, int frameCountW, int frameCountH) {
+    this->frameCountW = frameCountW;
+    this->frameCountH = frameCountH;
+
     texture = nullptr;
     Open(file);
 }
@@ -17,6 +20,45 @@ Sprite::~Sprite() {
     if (texture != nullptr) {
         SDL_DestroyTexture(texture);
     }
+}
+
+int Sprite::GetWidth() {
+    return width / frameCountW;
+}
+
+int Sprite::GetHeight() {
+    return height / frameCountH;
+}
+
+// Seleciona qual sub-região da imagem (spritesheet) será exibida
+void Sprite::SetFrame(int frame) {
+    // Converte para pixels
+    int frameWidth = width / frameCountW;
+    int frameHeight = height / frameCountH;
+
+    // Coordenadas x e y iniciais do frame
+    int linhasAPular = frame / frameCountW;
+    int colunasAPular = frame % frameCountW;
+
+    // Converte para pixels
+    int x = colunasAPular * frameWidth;
+    int y = linhasAPular * frameHeight;
+
+    if ((x >= 0 && y >= 0) &&
+        ((x + frameWidth) <= width) &&    // não pode ultrapassar o width
+        ((y + frameHeight) <= height)) {  // não pode ultrapassar o height
+        SetClip(x, y, frameCountW, frameCountH);
+    }
+}
+
+void Sprite::SetFrameCount(int frameCountW, int frameCountH) {
+    this->frameCountW = frameCountW;
+    this->frameCountH = frameCountH;
+};
+
+// Retorna true se texture estiver alocada
+bool Sprite::IsOpen() {
+    return texture != nullptr;
 }
 
 // Carrega a imagem indicada pelo caminho file. Antes de carregar, deve-
@@ -57,23 +99,15 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 // membros w e h diferirem das dimensões do clip, causarão uma
 // mudança na escala, contraindo ou expandindo a imagem para se
 // adaptar a esses valores
-void Sprite::Render(int x, int y) {
+void Sprite::Render(int x, int y, int w, int h) {
     SDL_Renderer* renderer = Game::GetInstance().GetRenderer();
-
     SDL_Rect dstrect = SDL_Rect();
+
     dstrect.x = x;
     dstrect.y = y;
-    dstrect.w = clipRect.w;
-    dstrect.h = clipRect.h;
+
+    dstrect.w = (w > 0) ? w : clipRect.w;
+    dstrect.h = (h > 0) ? h : clipRect.h;
 
     SDL_RenderCopy(renderer, texture, &clipRect, &dstrect);
-}
-
-int Sprite::GetWidth() { return width; }
-
-int Sprite::GetHeight() { return height; }
-
-// Retorna true se texture estiver alocada
-bool Sprite::IsOpen() {
-    return texture != nullptr;
 }
