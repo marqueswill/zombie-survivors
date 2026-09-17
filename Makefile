@@ -4,6 +4,7 @@ APP_NAME = zombie_survivors
 
 # Caminho do executável compilado 
 EXEC_PATH = $(BUILD_DIR)/$(APP_NAME)
+LIBS = libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
 
 # --- Construção do nome de exportação ---
 EXPORT_NAME = $(APP_NAME)
@@ -30,7 +31,7 @@ all:
 run: all
 	@./$(EXEC_PATH)
 
-export: all
+release: all
 	@echo "Criando pasta de distribuição para Linux..."
 	@mkdir -p $(EXPORT_DIR)
 	@cp $(EXEC_PATH) $(EXPORT_DEST)
@@ -38,14 +39,15 @@ export: all
 
 install:
 	@echo "Instalando dependências da SDL2..."
-	@sudo apt-get install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
+	@sudo apt-get install -y $(LIBS)
 
 update:
 	@echo "Atualizando pacotes e dependências da SDL2..."
 	@sudo apt-get update
-	@sudo apt-get install --only-upgrade -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
+	@sudo apt-get install --only-upgrade -y $(LIBS)
 
 clean:
 	@rm -rf $(BUILD_DIR) $(DIST_DIR)
+
 
 .PHONY: all run export install update clean

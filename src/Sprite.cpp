@@ -2,12 +2,10 @@
 
 #include "Game.h"
 
-Sprite::Sprite() {
-    texture = nullptr;
-}
+Sprite::Sprite() : frameCountW(1), frameCountH(1), texture(nullptr) {}
 
-Sprite::Sprite(std::string file) {
-    texture = nullptr;
+Sprite::Sprite(std::string file, int frameCountW, int frameCountH)
+    : frameCountW(frameCountW), frameCountH(frameCountH), texture(nullptr) {
     Open(file);
 }
 
@@ -17,6 +15,44 @@ Sprite::~Sprite() {
     if (texture != nullptr) {
         SDL_DestroyTexture(texture);
     }
+}
+
+int Sprite::GetWidth() {
+    return clipRect.w;
+}
+
+int Sprite::GetHeight() {
+    return clipRect.h;
+}
+
+// Seleciona qual sub-região da imagem (spritesheet) será exibida
+void Sprite::SetFrame(int frame) {
+    // Descobre o tamanho do frame
+    int frameWidth = width / frameCountW;    // Tamanho da imagem dividido pelo numero de colunas
+    int frameHeight = height / frameCountH;  // Tamanho da imagem dividido pelo numero de linhas
+
+    int linhasAPular = frame / frameCountW;   // Offset altura
+    int colunasAPular = frame % frameCountW;  // Offset largura
+
+    // Coordenadas x e y iniciais do frame
+    int x = colunasAPular * frameWidth;  // Offset horizontal
+    int y = linhasAPular * frameHeight;  // Offset vertical
+
+    if ((x >= 0 && y >= 0) &&
+        ((x + frameWidth) <= width) &&           // Não pode ultrapassar o width do sprite
+        ((y + frameHeight) <= height)) {         // Não pode ultrapassar o height do sprite
+        SetClip(x, y, frameWidth, frameHeight);  // Faz o "recorte" do spritesheet
+    }
+}
+
+void Sprite::SetFrameCount(int frameCountW, int frameCountH) {
+    this->frameCountW = frameCountW;
+    this->frameCountH = frameCountH;
+};
+
+// Retorna true se texture estiver alocada
+bool Sprite::IsOpen() {
+    return texture != nullptr;
 }
 
 // Carrega a imagem indicada pelo caminho file. Antes de carregar, deve-
@@ -35,7 +71,7 @@ void Sprite::Open(std::string file) {
     }
 
     SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
-    SetClip(0, 0, width, height);
+    SetFrame(0);
 }
 
 // Seta clipRect com os parâmetros dados
@@ -57,23 +93,15 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 // membros w e h diferirem das dimensões do clip, causarão uma
 // mudança na escala, contraindo ou expandindo a imagem para se
 // adaptar a esses valores
-void Sprite::Render(int x, int y) {
+void Sprite::Render(int x, int y, int w, int h) {
     SDL_Renderer* renderer = Game::GetInstance().GetRenderer();
-
     SDL_Rect dstrect = SDL_Rect();
+
     dstrect.x = x;
     dstrect.y = y;
-    dstrect.w = clipRect.w;
-    dstrect.h = clipRect.h;
+
+    dstrect.w = (w > 0) ? w : clipRect.w;
+    dstrect.h = (h > 0) ? h : clipRect.h;
 
     SDL_RenderCopy(renderer, texture, &clipRect, &dstrect);
-}
-
-int Sprite::GetWidth() { return width; }
-
-int Sprite::GetHeight() { return height; }
-
-// Retorna true se texture estiver alocada
-bool Sprite::IsOpen() {
-    return texture != nullptr;
 }

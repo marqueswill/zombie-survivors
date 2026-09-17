@@ -2,6 +2,9 @@
 #define STATE_H
 
 #define INCLUDE_SDL
+#include <vector>
+
+#include "GameObject.h"
 #include "Music.h"
 #include "SDL_include.h"
 #include "Sprite.h"
@@ -12,13 +15,17 @@
 class State {
    public:
     State();
+    ~State();
+
     bool QuitRequested();
     void LoadAssets();
     void Update(float dt);
     void Render();
+    void AddObject(GameObject* go);
 
    private:
-    Sprite bg;
+    // Sprite bg;
+    std::vector<std::unique_ptr<GameObject>> objectArray;
     Music music;
     bool quitRequested;
 };

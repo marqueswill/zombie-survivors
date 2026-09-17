@@ -59,9 +59,9 @@ Gera o executável na pasta `dist/`
 É possível anexar versões ou sufixos ao nome do arquivo exportado usando variáveis
 
 ```bash
-make export               # Gera: zombie_survivors
-make export VERSION=1.0   # Gera: zombie_survivors-v1.0
-make export SUFFIX=_test  # Gera: zombie_survivors_test
+make release               # Gera: zombie_survivors
+make release VERSION=1.0   # Gera: zombie_survivors-v1.0
+make release SUFFIX=_test  # Gera: zombie_survivors_test
 ```
 
 **Limpar arquivos gerados:**
