@@ -5,6 +5,7 @@
 Zombie::Zombie(GameObject& associated) : Component(associated) {
     hitpoints = 100;
 }
+
 void Zombie::Damage(int damage) {
     hitpoints -= damage;
 

@@ -2,6 +2,7 @@
 #define SPRITERENDERER_H
 
 #include "Component.h"
+#include "GameObject.h"
 #include "Sprite.h"
 
 // Serve como wrapper para Sprite e simplificar o processo de renderizar todos os sprites do nosso jogo.

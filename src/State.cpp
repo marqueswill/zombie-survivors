@@ -1,5 +1,6 @@
 #include "State.h"
 
+#include "Animator.h"
 #include "SpriteRenderer.h"
 #include "Zombie.h"
 
@@ -10,13 +11,24 @@ State::State() {
     AddObject(bgObject);
 
     GameObject* enemyObject = new GameObject();
-    SpriteRenderer* enemySprite = new SpriteRenderer(*enemyObject, "assets/img/Enemy.png", 3, 2);
+
     Zombie* zombie = new Zombie(*enemyObject);
-    enemySprite->SetFrame(1);
+    enemyObject->AddComponent(zombie);
+
+    Animator* zombieAnimations = new Animator(*enemyObject);
+
+    zombieAnimations->AddAnimation("walking", Animation(0, 3, 10));
+    zombieAnimations->AddAnimation("dead", Animation(5, 5, 0));
+    enemyObject->AddComponent(zombieAnimations);
+
+    SpriteRenderer* enemySprite = new SpriteRenderer(*enemyObject, "assets/img/Enemy.png", 3, 2);
+    // enemySprite->SetFrame(1);
     enemyObject->box.x = 600;
     enemyObject->box.y = 450;
     enemyObject->AddComponent(enemySprite);
-    enemyObject->AddComponent(zombie);
+
+    zombieAnimations->SetAnimation("walking");
+
     AddObject(enemyObject);
 
     music = Music("assets/audio/BGM.wav");
