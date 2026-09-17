@@ -1,8 +1,8 @@
 #include "State.h"
 
-#include "Animator.h"
-#include "SpriteRenderer.h"
-#include "Zombie.h"
+#include "components/Animator.h"
+#include "components/SpriteRenderer.h"
+#include "components/Zombie.h"
 
 State::State() {
     GameObject* bgObject = new GameObject();

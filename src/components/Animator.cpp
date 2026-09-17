@@ -1,6 +1,6 @@
-#include "Animator.h"
+#include "components/Animator.h"
 
-#include "SpriteRenderer.h"
+#include "components/SpriteRenderer.h"
 
 Animator::Animator(GameObject& associated)
     : Component(associated),

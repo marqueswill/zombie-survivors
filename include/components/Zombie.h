@@ -1,8 +1,8 @@
 #ifndef ZOMBIE_H
 #define ZOMBIE_H
 
-#include "Component.h"
 #include "GameObject.h"
+#include "components/Component.h"
 
 class Zombie : public Component {
    public:

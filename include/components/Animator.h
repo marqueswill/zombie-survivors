@@ -4,9 +4,9 @@
 #include <string>
 #include <unordered_map>
 
-#include "Animation.h"
-#include "Component.h"
 #include "GameObject.h"
+#include "components/Animation.h"
+#include "components/Component.h"
 class Animator : public Component {
    public:
     Animator(GameObject& associated);
