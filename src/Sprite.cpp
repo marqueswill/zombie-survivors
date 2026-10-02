@@ -4,10 +4,16 @@
 
 #include "Game.h"
 
-Sprite::Sprite() : frameCountW(1), frameCountH(1), texture(nullptr) {}
+Sprite::Sprite()
+    : width(0), height(0), frameCountW(1), frameCountH(1), texture(nullptr), clipRect{0, 0, 0, 0} {}
 
 Sprite::Sprite(std::string file, int frameCountW, int frameCountH)
-    : frameCountW(frameCountW), frameCountH(frameCountH), texture(nullptr) {
+    : width(0),
+      height(0),
+      frameCountW(frameCountW),
+      frameCountH(frameCountH),
+      texture(nullptr),
+      clipRect{0, 0, 0, 0} {
     Open(file);
 }
 
@@ -29,6 +35,10 @@ int Sprite::GetHeight() {
 
 // Seleciona qual sub-região da imagem (spritesheet) será exibida
 void Sprite::SetFrame(int frame) {
+    if (frame < 0 || frameCountW <= 0 || frameCountH <= 0 || width <= 0 || height <= 0) {
+        return;
+    }
+
     // Descobre o tamanho do frame
     int frameWidth = width / frameCountW;    // Tamanho da imagem dividido pelo numero de colunas
     int frameHeight = height / frameCountH;  // Tamanho da imagem dividido pelo numero de linhas
@@ -48,6 +58,10 @@ void Sprite::SetFrame(int frame) {
 }
 
 void Sprite::SetFrameCount(int frameCountW, int frameCountH) {
+    if (frameCountW <= 0 || frameCountH <= 0) {
+        return;
+    }
+
     this->frameCountW = frameCountW;
     this->frameCountH = frameCountH;
 };
@@ -60,12 +74,18 @@ bool Sprite::IsOpen() {
 // Carrega a imagem indicada pelo caminho file. Antes de carregar, deve-se checar
 // se já há alguma imagem carregada em texture. Se sim, deve ser desalocada primeiro.
 void Sprite::Open(std::string file) {
-    // if (texture != nullptr) {
-    //     SDL_DestroyTexture(texture);
-    // }
-
     texture = Resources::GetImage(file);
-    SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
+
+    // Se nao conseguir abrir imagem ou nao conseguir fazer query no sdl
+    if (texture == nullptr ||
+        SDL_QueryTexture(texture, nullptr, nullptr, &width, &height) != 0) {
+        texture = nullptr;
+        width = 0;
+        height = 0;
+        clipRect = {0, 0, 0, 0};
+        return;
+    }
+
     SetFrame(0);
 }
 
@@ -89,6 +109,10 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 // mudança na escala, contraindo ou expandindo a imagem para se
 // adaptar a esses valores
 void Sprite::Render(int x, int y, int w, int h) {
+    if (texture == nullptr) {
+        return;
+    }
+
     SDL_Renderer* renderer = Game::GetInstance().GetRenderer();
     SDL_Rect dstrect = SDL_Rect();
 

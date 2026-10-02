@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "GameObject.h"
-#include "TileSet.h";
+#include "TileSet.h"
 #include "components/Component.h"
 
 class TileMap : public Component {

@@ -12,7 +12,7 @@ Animator::Animator(GameObject& associated)
 }
 
 void Animator::Update(float dt) {
-    if (frameTime == 0) {
+    if (frameTime <= 0) {
         return;
     }
 

@@ -1,7 +1,11 @@
 #include "components/TileSet.h"
 
 TileSet::TileSet(int tileWidth, int tileHeight, std::string file)
-    : tileWidth(tileWidth), tileHeight(tileHeight) {
+    : tileWidth(tileWidth), tileHeight(tileHeight), tileCount(0) {
+    if (tileWidth <= 0 || tileHeight <= 0) {
+        return;
+    }
+
     tileSet.Open(file);
 
     if (!tileSet.IsOpen()) {

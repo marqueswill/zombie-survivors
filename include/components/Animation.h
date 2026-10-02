@@ -9,7 +9,7 @@ class Animation {
 
     int frameStart;
     int frameEnd;
-    int frameTime;
+    float frameTime;
 };
 
 #endif
