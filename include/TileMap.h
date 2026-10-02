@@ -19,6 +19,7 @@ class TileMap {
 
     void Render();
     void RenderLayer(int layer);
+    void ShowMatrix();
 
     int GetWidth();
     int GetHeight();

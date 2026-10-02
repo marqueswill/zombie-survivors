@@ -1,0 +1,72 @@
+#include "TileMap.h"
+
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+
+#include "TileSet.h"
+
+TileMap::TileMap(GameObject& associated, std::string file, TileSet* tileSet) {
+    Load(file);
+    SetTileSet(tileSet);
+}
+
+void TileMap::Load(std::string file) {
+    std::ifstream inputFile(file);
+
+    if (!inputFile.is_open()) {
+        std::cerr << "Error: Could not open the file: " << file << std::endl;
+        return;
+    }
+
+    // Primeiro padroniza o input
+    std::string content(
+        (std::istreambuf_iterator<char>(inputFile)),
+        std::istreambuf_iterator<char>());
+    for (char& c : content) {
+        if (c == ',' || c == '\n' || c == '\r') {
+            c = ' ';
+        }
+    }
+
+    // Depois itera apenas nos números
+    std::stringstream stream(content);
+
+    // Os três primeriso são as dimensões
+    stream >> mapWidth >> mapHeight >> mapDepth;
+
+    // Os demais são os tiles para a matriz
+    tileMatrix.clear();
+    int tile;
+    while (stream >> tile) {
+        tileMatrix.push_back(tile);
+    }
+}
+
+void TileMap::SetTileSet(TileSet* tileSet) {
+    this->tileSet.reset(tileSet);
+}
+
+int& TileMap::At(int x, int y, int z = 0) {
+    int index =
+        x +
+        (y * mapWidth) +
+        (z * mapWidth * mapHeight);
+
+    return tileMatrix.at(index);
+}
+
+void TileMap::Render() {}
+
+void TileMap::RenderLayer(int layer) {}
+
+int TileMap::GetWidth() {
+    return mapWidth;
+};
+int TileMap::GetHeight() {
+    return mapHeight;
+};
+int TileMap::GetDepth() {
+    return mapDepth;
+};
