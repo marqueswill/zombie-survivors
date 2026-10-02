@@ -48,7 +48,7 @@ void TileMap::SetTileSet(TileSet* tileSet) {
     this->tileSet.reset(tileSet);
 }
 
-int& TileMap::At(int x, int y, int z = 0) {
+int& TileMap::At(int x, int y, int z) {
     int index =
         x +
         (y * mapWidth) +
