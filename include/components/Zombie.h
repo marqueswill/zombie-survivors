@@ -2,6 +2,7 @@
 #define ZOMBIE_H
 
 #include "GameObject.h"
+#include "Sound.h"
 #include "components/Component.h"
 
 class Zombie : public Component {
@@ -13,6 +14,9 @@ class Zombie : public Component {
 
    private:
     int hitpoints;
+    Sound deathSound;
+    Sound hit0Sound;
+    bool dead = false;
 };
 
 #endif

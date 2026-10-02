@@ -1,28 +1,37 @@
 #include "components/Zombie.h"
 
-// #include "components/SpriteRenderer.h"
-// class SpriteRenderer;
-// class Animator;
+#include <Sound.h>
+
 #include "components/Animator.h"
 
 Zombie::Zombie(GameObject& associated) : Component(associated) {
-    hitpoints = 100;
+    hitpoints = 50;
+    deathSound = Sound("assets/audio/Dead.wav");
+    hit0Sound = Sound("assets/audio/Hit0.wav");
 }
 
 void Zombie::Damage(int damage) {
-    hitpoints -= damage;
+    if (dead) {
+        return;
+    }
 
-    // SpriteRenderer* sprite = associated.GetComponent<SpriteRenderer>();
-    Animator* anim = associated.GetComponent<Animator>();
+    hitpoints -= damage;
+    hit0Sound.Play(1);
 
     if (hitpoints <= 0) {
-        // sprite->SetFrame(5);
-        anim->SetAnimation("dead");
+        dead = true;
+
+        Animator* anim = associated.GetComponent<Animator>();
+        if (anim != nullptr) {
+            anim->SetAnimation("dead");
+        }
+
+        deathSound.Play(1);
     }
 }
 
 void Zombie::Update(float dt) {
-    Damage(1);
+    Damage(10);
 }
 
 void Zombie::Render() {}
