@@ -4,6 +4,7 @@
 #define INCLUDE_SDL_MIXER
 #define INCLUDE_SDL_TTF
 
+#include "Resources.h"
 #include "SDL_include.h"
 
 // Inicialização variáveis estáticas
@@ -92,6 +93,10 @@ void Game::Run() {
         SDL_Delay(33);
         quitRequested = state->QuitRequested();
     }
+
+    Resources::ClearImages();
+    Resources::ClearMusics();
+    Resources::ClearSounds();
 }
 
 // Retorna o membro renderer.
