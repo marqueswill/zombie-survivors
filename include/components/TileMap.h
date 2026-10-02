@@ -5,10 +5,12 @@
 #include <string>
 #include <vector>
 
+#include "components/Component.h"
+
 class GameObject;
 class TileSet;
 
-class TileMap {
+class TileMap : public Component {
    public:
     TileMap(GameObject& associated, std::string file, TileSet* tileSet);
 
@@ -18,6 +20,7 @@ class TileMap {
     // X e Y são as posições no plano, Z é a camada ("profundidade")
     int& At(int x, int y, int z = 0);
 
+    void Update(float dt);
     void Render();
     void RenderLayer(int layer);
     void ShowMatrix();

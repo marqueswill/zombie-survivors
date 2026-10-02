@@ -1,9 +1,9 @@
 #include "GameObjectFactory.h"
 
-#include "TileMap.h"
-#include "TileSet.h"
 #include "components/Animator.h"
 #include "components/SpriteRenderer.h"
+#include "components/TileMap.h"
+#include "components/TileSet.h"
 #include "components/Zombie.h"
 
 GameObject* GameObjectFactory::CreateBackground() {
@@ -12,10 +12,9 @@ GameObject* GameObjectFactory::CreateBackground() {
     object->box.x = 0;
     object->box.y = 0;
 
-    // TODO: TileMap component?
     TileSet* tileSet = new TileSet(64, 64, "assets/img/Tileset.png");
-    TileMap(*object, "map/map.txt", tileSet);
 
+    object->AddComponent(new TileMap(*object, "map/map.txt", tileSet));
     object->AddComponent(new SpriteRenderer(*object, "assets/img/Background.png"));
 
     return object;
