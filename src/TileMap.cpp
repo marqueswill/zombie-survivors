@@ -57,9 +57,32 @@ int& TileMap::At(int x, int y, int z = 0) {
     return tileMatrix.at(index);
 }
 
-void TileMap::Render() {}
+// Renderiza uma camada do mapa, tile a tile.
+void TileMap::RenderLayer(int layer) {
+    if (!tileSet) {
+        return;
+    }
 
-void TileMap::RenderLayer(int layer) {}
+    for (int y = 0; y < mapHeight; y++) {
+        for (int x = 0; x < mapWidth; x++) {
+            int tileIndex = At(x, y, layer);
+
+            // -1 não renderiza
+            if (tileIndex >= 0) {
+                tileSet->RenderTile(
+                    tileIndex,                      // qual tile desenhar
+                    x * tileSet->GetTileWidth(),    // posição X em pixels
+                    y * tileSet->GetTileHeight());  // posição Y em pixels
+            }
+        }
+    }
+}
+
+void TileMap::Render() {
+    for (int layer = 0; layer < mapDepth; layer++) {
+        RenderLayer(layer);
+    }
+}
 
 int TileMap::GetWidth() {
     return mapWidth;

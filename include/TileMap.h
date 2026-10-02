@@ -15,6 +15,7 @@ class TileMap {
     void Load(std::string file);
     void SetTileSet(TileSet* tileSet);
 
+    // X e Y são as posições no plano, Z é a camada ("profundidade")
     int& At(int x, int y, int z = 0);
 
     void Render();
