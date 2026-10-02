@@ -1,5 +1,7 @@
 #include "Music.h"
 
+#include <Resources.h>
+
 Music::Music() {
     music = nullptr;
 }
@@ -11,10 +13,10 @@ Music::Music(std::string file) {
 
 Music::~Music() {
     Stop(0);
-    if (music != nullptr) {
-        Mix_FreeMusic(music);
-        music = nullptr;
-    }
+    // if (music != nullptr) {
+    //     Mix_FreeMusic(music);
+    //     music = nullptr;
+    // }
 }
 
 // Mix_PlayMusic recebe uma música e quantas vezes ela deve ser
@@ -40,15 +42,17 @@ void Music::Stop(int msToStop) {
 // Carrega a música indicada no arquivo file. Lembre-se de tratar o caso
 // em que nullptr é retornado
 void Music::Open(std::string file) {
-    if (music != nullptr) {
-        Mix_FreeMusic(music);
-    }
+    // if (music != nullptr) {
+    //     Mix_FreeMusic(music);
+    // }
 
-    music = Mix_LoadMUS(file.c_str());
+    // music = Mix_LoadMUS(file.c_str());
 
-    if (music == nullptr) {
-        std::cerr << "Erro ao carregar música: " << Mix_GetError() << std::endl;
-    }
+    // if (music == nullptr) {
+    //     std::cerr << "Erro ao carregar música: " << Mix_GetError() << std::endl;
+    // }
+
+    music = Resources::GetMusic(file);
 }
 
 bool Music::IsOpen() {

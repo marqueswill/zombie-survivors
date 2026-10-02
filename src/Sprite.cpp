@@ -1,5 +1,7 @@
 #include "Sprite.h"
 
+#include <Resources.h>
+
 #include "Game.h"
 
 Sprite::Sprite() : frameCountW(1), frameCountH(1), texture(nullptr) {}
@@ -12,9 +14,9 @@ Sprite::Sprite(std::string file, int frameCountW, int frameCountH)
 // Se houver imagem alocada, desaloca. Nunca use delete ou free em
 // uma SDL_Texture.Use SDL_DestroyTexture(SDL_Texture*)
 Sprite::~Sprite() {
-    if (texture != nullptr) {
-        SDL_DestroyTexture(texture);
-    }
+    // if (texture != nullptr) {
+    //     SDL_DestroyTexture(texture);
+    // }
 }
 
 int Sprite::GetWidth() {
@@ -58,18 +60,11 @@ bool Sprite::IsOpen() {
 // Carrega a imagem indicada pelo caminho file. Antes de carregar, deve-se checar
 // se já há alguma imagem carregada em texture. Se sim, deve ser desalocada primeiro.
 void Sprite::Open(std::string file) {
-    if (texture != nullptr) {
-        SDL_DestroyTexture(texture);
-    }
+    // if (texture != nullptr) {
+    //     SDL_DestroyTexture(texture);
+    // }
 
-    SDL_Renderer* renderer = Game::GetInstance().GetRenderer();
-    const char* path = file.c_str();
-    texture = IMG_LoadTexture(renderer, path);
-
-    if (texture == nullptr) {
-        std::cerr << "Erro ao carregar textura: " << IMG_GetError() << std::endl;
-    }
-
+    texture = Resources::GetImage(file);
     SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
     SetFrame(0);
 }

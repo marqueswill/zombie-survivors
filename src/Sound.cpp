@@ -1,5 +1,7 @@
 #include "Sound.h"
 
+#include <Resources.h>
+
 #include <iostream>
 
 Sound::Sound() {
@@ -13,10 +15,10 @@ Sound::Sound(std::string file) {
 
 Sound::~Sound() {
     Stop();
-    if (chunk != nullptr) {
-        Mix_FreeChunk(chunk);
-        chunk = nullptr;
-    }
+    // if (chunk != nullptr) {
+    //     Mix_FreeChunk(chunk);
+    //     chunk = nullptr;
+    // }
 }
 
 void Sound::Play(int times) {
@@ -30,17 +32,19 @@ void Sound::Stop() {
 }
 
 void Sound::Open(std::string file) {
-    if (chunk != nullptr) {
-        Mix_FreeChunk(chunk);
-    }
+    // if (chunk != nullptr) {
+    //     Mix_FreeChunk(chunk);
+    // }
 
-    chunk = Mix_LoadWAV(file.c_str());
+    // chunk = Mix_LoadWAV(file.c_str());
 
-    // TODO: fazer tratamento de erro
-    if (chunk == nullptr) {
-        std::cerr << "Erro ao carregar som (sound chunk): " << Mix_GetError() << std::endl;
-        return;
-    }
+    // // TODO: fazer tratamento de erro
+    // if (chunk == nullptr) {
+    //     std::cerr << "Erro ao carregar som (sound chunk): " << Mix_GetError() << std::endl;
+    //     return;
+    // }
+
+    chunk = Resources::GetSound(file);
 }
 
 bool Sound::IsOpen() {
