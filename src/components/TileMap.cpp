@@ -1,13 +1,14 @@
-#include "TileMap.h"
+#include "components/TileMap.h"
 
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
 
-#include "TileSet.h"
+#include "components/TileSet.h"
 
-TileMap::TileMap(GameObject& associated, std::string file, TileSet* tileSet) {
+TileMap::TileMap(GameObject& associated, std::string file, TileSet* tileSet)
+    : Component(associated) {
     Load(file);
     SetTileSet(tileSet);
 }
@@ -93,3 +94,5 @@ int TileMap::GetHeight() {
 int TileMap::GetDepth() {
     return mapDepth;
 };
+
+void TileMap::Update(float dt) {}
