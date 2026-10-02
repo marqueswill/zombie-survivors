@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <utility>
 
 #include "components/TileSet.h"
 
@@ -38,14 +39,33 @@ void TileMap::Load(std::string file) {
     std::stringstream stream(content);
 
     // Os três primeriso são as dimensões
-    stream >> mapWidth >> mapHeight >> mapDepth;
+    int width;
+    int height;
+    int depth;
+    if (!(stream >> width >> height >> depth) || width <= 0 || height <= 0 || depth <= 0) {
+        std::cerr << "Error: Invalid map dimensions in: " << file << std::endl;
+        return;
+    }
 
     // Os demais são os tiles para a matriz
-    tileMatrix.clear();
+
+    std::vector<int> loadedTiles;
     int tile;
     while (stream >> tile) {
-        tileMatrix.push_back(tile);
+        loadedTiles.push_back(tile);
     }
+
+    const auto expectedTileCount = static_cast<std::size_t>(width) * height * depth;
+    if (loadedTiles.size() != expectedTileCount) {
+        std::cerr << "Error: Expected " << expectedTileCount << " tiles in " << file
+                  << ", but found " << loadedTiles.size() << std::endl;
+        return;
+    }
+
+    mapWidth = width;
+    mapHeight = height;
+    mapDepth = depth;
+    tileMatrix = std::move(loadedTiles);
 }
 
 void TileMap::SetTileSet(TileSet* tileSet) {
