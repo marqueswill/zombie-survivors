@@ -55,8 +55,8 @@ bool Sprite::IsOpen() {
     return texture != nullptr;
 }
 
-// Carrega a imagem indicada pelo caminho file. Antes de carregar, deve-
-// se checar se já há alguma imagem carregada em texture : Se sim, deve ser desalocada primeiro
+// Carrega a imagem indicada pelo caminho file. Antes de carregar, deve-se checar
+// se já há alguma imagem carregada em texture. Se sim, deve ser desalocada primeiro.
 void Sprite::Open(std::string file) {
     if (texture != nullptr) {
         SDL_DestroyTexture(texture);

@@ -6,9 +6,12 @@
 #include "Sprite.h"
 
 // Esta classe é responsável por armazenar os tiles utilizados
-// na renderização do TileMap. Internamente, os tiles fazem parte de um
-// grande Sprite (img/Tileset.png). Quando queremos renderizar um deles,
-// recortamos usando o clip do Sprite.
+// na renderização do TileMap.
+//
+// Corresponde apenas à imagem que agrupa todos os tiles
+//
+// Internamente, os tiles fazem parte de um grande Sprite (img/Tileset.png).
+// Quando queremos renderizar um deles, recortamos usando o clip do Sprite.
 class TileSet {
    public:
     TileSet(int tileWidth, int tileHeight, std::string file);
