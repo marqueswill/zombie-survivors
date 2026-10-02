@@ -6,6 +6,7 @@
 class GameObjectFactory {
    public:
     static GameObject* CreateBackground();
+    static GameObject* CreateTileMap();
     static GameObject* CreateZombie(float x, float y);
 };
 

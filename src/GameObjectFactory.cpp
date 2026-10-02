@@ -12,10 +12,16 @@ GameObject* GameObjectFactory::CreateBackground() {
     object->box.x = 0;
     object->box.y = 0;
 
-    TileSet* tileSet = new TileSet(64, 64, "assets/img/Tileset.png");
-
-    object->AddComponent(new TileMap(*object, "map/map.txt", tileSet));
     object->AddComponent(new SpriteRenderer(*object, "assets/img/Background.png"));
+
+    return object;
+}
+
+GameObject* GameObjectFactory::CreateTileMap() {
+    GameObject* object = new GameObject();
+
+    TileSet* tileSet = new TileSet(64, 64, "assets/img/Tileset.png");
+    object->AddComponent(new TileMap(*object, "map/map.txt", tileSet));
 
     return object;
 }

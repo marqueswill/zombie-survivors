@@ -5,10 +5,9 @@
 #include <string>
 #include <vector>
 
+#include "GameObject.h"
+#include "TileSet.h";
 #include "components/Component.h"
-
-class GameObject;
-class TileSet;
 
 class TileMap : public Component {
    public:

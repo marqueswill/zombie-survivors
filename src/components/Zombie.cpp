@@ -4,10 +4,11 @@
 
 #include "components/Animator.h"
 
-Zombie::Zombie(GameObject& associated) : Component(associated) {
-    hitpoints = 50;
-    deathSound = Sound("assets/audio/Dead.wav");
-    hit0Sound = Sound("assets/audio/Hit0.wav");
+Zombie::Zombie(GameObject& associated)
+    : Component(associated),
+      hitpoints(100),
+      deathSound(Sound("assets/audio/Dead.wav")),
+      hit0Sound(Sound("assets/audio/Hit0.wav")) {
 }
 
 void Zombie::Damage(int damage) {

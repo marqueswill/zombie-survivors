@@ -9,9 +9,9 @@
 
 TileMap::TileMap(GameObject& associated, std::string file, TileSet* tileSet)
     : Component(associated),
-      mapDepth(0),
       mapWidth(0),
-      mapHeight(0) {
+      mapHeight(0),
+      mapDepth(0) {
     Load(file);
     SetTileSet(tileSet);
 }
@@ -74,9 +74,9 @@ void TileMap::RenderLayer(int layer) {
             // -1 não renderiza
             if (tileIndex >= 0) {
                 tileSet->RenderTile(
-                    tileIndex,                      // qual tile desenhar
-                    x * tileSet->GetTileWidth(),    // posição X em pixels
-                    y * tileSet->GetTileHeight());  // posição Y em pixels
+                    tileIndex,                                     // qual tile desenhar
+                    associated.box.x * tileSet->GetTileWidth(),    // posição X em pixels
+                    associated.box.y * tileSet->GetTileHeight());  // posição Y em pixels
             }
         }
     }

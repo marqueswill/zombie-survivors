@@ -19,7 +19,8 @@ void Animator::Update(float dt) {
     timeElapsed++;
 
     if (timeElapsed > frameTime) {
-        currentFrame = (currentFrame > frameEnd) ? frameStart : currentFrame + 1;
+        currentFrame++;
+        if (currentFrame > frameEnd) currentFrame = frameStart;
         timeElapsed -= frameTime;
     }
 

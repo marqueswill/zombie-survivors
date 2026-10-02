@@ -1,9 +1,10 @@
 #ifndef SOUND_H
 #define SOUND_H
 
-#include <SDL2/SDL_mixer.h>
-
+#define INCLUDE_SDL_MIXER
 #include <string>
+
+#include "SDL_include.h"
 
 // Sound é quase a mesma classe de Music, mesmo na implementação.
 // As diferenças estão nas funções da Mixer usadas, e no fato de que, diferente
