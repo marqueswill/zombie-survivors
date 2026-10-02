@@ -8,7 +8,10 @@
 #include "components/TileSet.h"
 
 TileMap::TileMap(GameObject& associated, std::string file, TileSet* tileSet)
-    : Component(associated) {
+    : Component(associated),
+      mapDepth(0),
+      mapWidth(0),
+      mapHeight(0) {
     Load(file);
     SetTileSet(tileSet);
 }
