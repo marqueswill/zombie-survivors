@@ -47,7 +47,7 @@ update:
 	@sudo apt-get install --only-upgrade -y $(LIBS)
 
 clean:
-	@rm -rf $(BUILD_DIR) $(DIST_DIR)
+	@rm -rf $(BUILD_DIR)
 
 
 .PHONY: all run export install update clean

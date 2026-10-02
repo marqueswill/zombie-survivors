@@ -1,39 +1,21 @@
 #include "State.h"
 
-#include "components/Animator.h"
-#include "components/SpriteRenderer.h"
+#include <GameObjectFactory.h>
+
 #include "components/Zombie.h"
 
 State::State() {
-    GameObject* bgObject = new GameObject();
-    SpriteRenderer* bgSprite = new SpriteRenderer(*bgObject, "assets/img/Background.png");
-    bgObject->AddComponent(bgSprite);
-    AddObject(bgObject);
-
-    GameObject* enemyObject = new GameObject();
-
-    Zombie* zombie = new Zombie(*enemyObject);
-    enemyObject->AddComponent(zombie);
-
-    Animator* zombieAnimations = new Animator(*enemyObject);
-
-    zombieAnimations->AddAnimation("walking", Animation(0, 3, 10));
-    zombieAnimations->AddAnimation("dead", Animation(5, 5, 0));
-    enemyObject->AddComponent(zombieAnimations);
-
-    SpriteRenderer* enemySprite = new SpriteRenderer(*enemyObject, "assets/img/Enemy.png", 3, 2);
-    // enemySprite->SetFrame(1);
-    enemyObject->box.x = 600;
-    enemyObject->box.y = 450;
-    enemyObject->AddComponent(enemySprite);
-
-    zombieAnimations->SetAnimation("walking");
-
-    AddObject(enemyObject);
+    AddObject(GameObjectFactory::CreateBackground());
+    AddObject(GameObjectFactory::CreateZombie(400, 450));
+    AddObject(GameObjectFactory::CreateZombie(500, 450));
+    AddObject(GameObjectFactory::CreateZombie(600, 450));
+    AddObject(GameObjectFactory::CreateZombie(700, 450));
 
     music = Music("assets/audio/BGM.wav");
+
     quitRequested = false;
-    // music.Play(-1);
+
+    music.Play(-1);
 }
 
 State::~State() {
