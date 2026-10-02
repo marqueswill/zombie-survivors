@@ -1,11 +1,19 @@
 #include "State.h"
 
+#include "TileMap.h"
+#include "TileSet.h"
 #include "components/Animator.h"
 #include "components/SpriteRenderer.h"
 #include "components/Zombie.h"
 
 State::State() {
     GameObject* bgObject = new GameObject();
+    bgObject->box.x = 0;
+    bgObject->box.y = 0;
+
+    TileSet* tileSet = new TileSet(64, 64, "assets/img/Tileset.png");
+    TileMap(*bgObject, "map/map.txt", tileSet);
+
     SpriteRenderer* bgSprite = new SpriteRenderer(*bgObject, "assets/img/Background.png");
     bgObject->AddComponent(bgSprite);
     AddObject(bgObject);
