@@ -6,13 +6,15 @@
 #include <string>
 #include <utility>
 
+#include "Game.h"
 #include "components/TileSet.h"
 
-TileMap::TileMap(GameObject& associated, std::string file, TileSet* tileSet)
+TileMap::TileMap(GameObject& associated, std::string file, TileSet* tileSet, bool drawBorder)
     : Component(associated),
       mapWidth(0),
       mapHeight(0),
-      mapDepth(0) {
+      mapDepth(0),
+      drawBorder(drawBorder) {
     Load(file);
     SetTileSet(tileSet);
 }
@@ -82,21 +84,41 @@ int& TileMap::At(int x, int y, int z) {
 }
 
 // Renderiza uma camada do mapa, tile a tile.
+#include "Game.h"
+
 void TileMap::RenderLayer(int layer) {
     if (!tileSet) {
         return;
     }
 
+    SDL_Renderer* renderer = Game::GetInstance().GetRenderer();
+
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
             int tileIndex = At(x, y, layer);
 
-            // -1 não renderiza
             if (tileIndex >= 0) {
-                tileSet->RenderTile(
-                    tileIndex,                                         // qual tile desenhar
-                    associated.box.x + x * tileSet->GetTileWidth(),    // posição X em pixels
-                    associated.box.y + y * tileSet->GetTileHeight());  // posição Y em pixels
+                int tileX =
+                    static_cast<int>(associated.box.x) +
+                    x * tileSet->GetTileWidth();
+
+                int tileY =
+                    static_cast<int>(associated.box.y) +
+                    y * tileSet->GetTileHeight();
+
+                tileSet->RenderTile(tileIndex, tileX, tileY);
+
+                if (drawBorder) {
+                    SDL_Rect border = {
+                        tileX,
+                        tileY,
+                        tileSet->GetTileWidth(),
+                        tileSet->GetTileHeight()};
+
+                    // RGBA: preto e totalmente opaco
+                    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+                    SDL_RenderDrawRect(renderer, &border);
+                }
             }
         }
     }

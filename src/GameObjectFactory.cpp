@@ -17,11 +17,11 @@ GameObject* GameObjectFactory::CreateBackground() {
     return object;
 }
 
-GameObject* GameObjectFactory::CreateTileMap() {
+GameObject* GameObjectFactory::CreateTileMap(bool drawBorder) {
     GameObject* object = new GameObject();
 
     TileSet* tileSet = new TileSet(64, 64, "assets/img/Tileset.png");
-    object->AddComponent(new TileMap(*object, "assets/map/map.txt", tileSet));
+    object->AddComponent(new TileMap(*object, "assets/map/map.txt", tileSet, drawBorder));
 
     return object;
 }

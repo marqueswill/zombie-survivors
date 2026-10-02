@@ -6,7 +6,7 @@
 
 State::State() {
     AddObject(GameObjectFactory::CreateBackground());
-    AddObject(GameObjectFactory::CreateTileMap());
+    AddObject(GameObjectFactory::CreateTileMap(true));
 
     AddObject(GameObjectFactory::CreateZombie(400, 450));
     AddObject(GameObjectFactory::CreateZombie(500, 450));

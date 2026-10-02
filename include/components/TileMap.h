@@ -11,7 +11,7 @@
 
 class TileMap : public Component {
    public:
-    TileMap(GameObject& associated, std::string file, TileSet* tileSet);
+    TileMap(GameObject& associated, std::string file, TileSet* tileSet, bool drawBorder = false);
 
     void Load(std::string file);
     void SetTileSet(TileSet* tileSet);
@@ -34,6 +34,7 @@ class TileMap : public Component {
     int mapWidth;
     int mapHeight;
     int mapDepth;
+    bool drawBorder;
 };
 
 #endif
