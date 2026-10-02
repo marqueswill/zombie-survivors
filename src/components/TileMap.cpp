@@ -74,9 +74,9 @@ void TileMap::RenderLayer(int layer) {
             // -1 não renderiza
             if (tileIndex >= 0) {
                 tileSet->RenderTile(
-                    tileIndex,                                     // qual tile desenhar
-                    associated.box.x * tileSet->GetTileWidth(),    // posição X em pixels
-                    associated.box.y * tileSet->GetTileHeight());  // posição Y em pixels
+                    tileIndex,                                         // qual tile desenhar
+                    associated.box.x + x * tileSet->GetTileWidth(),    // posição X em pixels
+                    associated.box.y + y * tileSet->GetTileHeight());  // posição Y em pixels
             }
         }
     }

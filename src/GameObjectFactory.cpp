@@ -21,7 +21,7 @@ GameObject* GameObjectFactory::CreateTileMap() {
     GameObject* object = new GameObject();
 
     TileSet* tileSet = new TileSet(64, 64, "assets/img/Tileset.png");
-    object->AddComponent(new TileMap(*object, "map/map.txt", tileSet));
+    object->AddComponent(new TileMap(*object, "assets/map/map.txt", tileSet));
 
     return object;
 }
@@ -38,7 +38,7 @@ GameObject* GameObjectFactory::CreateZombie(float x, float y) {
 
     animator->AddAnimation(
         "walking",
-        Animation(0, 3, 10));
+        Animation(0, 3, 0.1f));
 
     animator->AddAnimation(
         "dead",

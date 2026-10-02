@@ -62,6 +62,10 @@ Game::~Game() {
         state = nullptr;
     }
 
+    Resources::ClearImages();
+    Resources::ClearMusics();
+    Resources::ClearSounds();
+
     if (renderer != nullptr) {
         SDL_DestroyRenderer(renderer);
         renderer = nullptr;
@@ -73,6 +77,7 @@ Game::~Game() {
     }
 
     /* Fecha todas (em ordem inversa de inicialização)*/
+    Mix_CloseAudio();
     TTF_Quit();
     Mix_Quit();
     IMG_Quit();
@@ -93,10 +98,6 @@ void Game::Run() {
         SDL_Delay(33);
         quitRequested = state->QuitRequested();
     }
-
-    Resources::ClearImages();
-    Resources::ClearMusics();
-    Resources::ClearSounds();
 }
 
 // Retorna o membro renderer.
