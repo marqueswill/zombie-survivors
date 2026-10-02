@@ -71,9 +71,9 @@ Rect& Rect::operator-=(const Rect& r2) {
 }
 
 Rect Rect::operator+(const Vec2& v2) const {
-    return add(Rect(v2.x, v2.y, w, h));
+    return add(Rect(v2.x, v2.y, 0, 0));
 }
 
 Rect Rect::operator-(const Vec2& v2) const {
-    return sub(Rect(v2.x, v2.y, w, h));
+    return sub(Rect(v2.x, v2.y, 0, 0));
 }

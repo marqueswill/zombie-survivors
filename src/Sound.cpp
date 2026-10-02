@@ -6,29 +6,29 @@
 
 Sound::Sound() {
     chunk = nullptr;
+    channel = -1;
 }
 
-Sound::Sound(std::string file) {
-    Sound();
+Sound::Sound(std::string file) : Sound() {
     Open(file);
 }
 
 Sound::~Sound() {
-    Stop();
-    // if (chunk != nullptr) {
-    //     Mix_FreeChunk(chunk);
-    //     chunk = nullptr;
-    // }
+    if (chunk != nullptr) {
+        Stop();
+    }
 }
 
 void Sound::Play(int times) {
     if (chunk != nullptr) {
-        channel = Mix_PlayChannel(channel, chunk, times - 1);
+        channel = Mix_PlayChannel(-1, chunk, times - 1);
     }
 }
 
 void Sound::Stop() {
-    Mix_HaltChannel(channel);
+    if (chunk != nullptr && channel != -1) {
+        Mix_HaltChannel(channel);
+    }
 }
 
 void Sound::Open(std::string file) {
@@ -43,7 +43,6 @@ void Sound::Open(std::string file) {
     //     std::cerr << "Erro ao carregar som (sound chunk): " << Mix_GetError() << std::endl;
     //     return;
     // }
-
     chunk = Resources::GetSound(file);
 }
 

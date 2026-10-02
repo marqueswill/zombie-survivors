@@ -12,14 +12,15 @@ Animator::Animator(GameObject& associated)
 }
 
 void Animator::Update(float dt) {
-    if (frameTime == 0) {
+    if (frameTime <= 0) {
         return;
     }
 
     timeElapsed++;
 
     if (timeElapsed > frameTime) {
-        currentFrame = (currentFrame > frameEnd) ? frameStart : currentFrame + 1;
+        currentFrame++;
+        if (currentFrame > frameEnd) currentFrame = frameStart;
         timeElapsed -= frameTime;
     }
 

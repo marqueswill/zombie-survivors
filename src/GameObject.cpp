@@ -9,9 +9,10 @@ GameObject::GameObject() : isDead(false) {
 
 GameObject::~GameObject() {
     // Faz delete de trás pra frente
-    for (int i = components.size() - 1; i >= 0; i--) {
-        delete *(components.begin() + i);
+    for (auto it = components.rbegin(); it != components.rend(); ++it) {
+        delete *it;
     }
+
     components.clear();
 };
 

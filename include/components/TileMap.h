@@ -5,14 +5,13 @@
 #include <string>
 #include <vector>
 
+#include "GameObject.h"
+#include "TileSet.h"
 #include "components/Component.h"
-
-class GameObject;
-class TileSet;
 
 class TileMap : public Component {
    public:
-    TileMap(GameObject& associated, std::string file, TileSet* tileSet);
+    TileMap(GameObject& associated, std::string file, TileSet* tileSet, bool drawBorder = false);
 
     void Load(std::string file);
     void SetTileSet(TileSet* tileSet);
@@ -23,7 +22,6 @@ class TileMap : public Component {
     void Update(float dt);
     void Render();
     void RenderLayer(int layer);
-    void ShowMatrix();
 
     int GetWidth();
     int GetHeight();
@@ -36,6 +34,7 @@ class TileMap : public Component {
     int mapWidth;
     int mapHeight;
     int mapDepth;
+    bool drawBorder;
 };
 
 #endif

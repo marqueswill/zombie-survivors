@@ -6,7 +6,7 @@ O jogo tem 7 versões, de acordo com a release atual do desenvolvimento na disci
 
 ## Execução
 
-Para executar o jogo, basta acessar a pasta `dist/linux/` e executar o binário gerado. Para executar pelo terminal:
+Para executar o jogo, basta acessar a pasta `dist/` e executar o binário gerado. Para executar pelo terminal:
 
 ```bash
 # Executável padrão exportado
@@ -66,7 +66,7 @@ make release SUFFIX=_test  # Gera: zombie_survivors_test
 
 **Limpar arquivos gerados:**
 
-Apaga as pastas `build/` e `dist/`
+Apaga a pasta `build/`
 
 ```bash
 make clean

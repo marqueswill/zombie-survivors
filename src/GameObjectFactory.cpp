@@ -12,10 +12,16 @@ GameObject* GameObjectFactory::CreateBackground() {
     object->box.x = 0;
     object->box.y = 0;
 
-    TileSet* tileSet = new TileSet(64, 64, "assets/img/Tileset.png");
-
-    object->AddComponent(new TileMap(*object, "map/map.txt", tileSet));
     object->AddComponent(new SpriteRenderer(*object, "assets/img/Background.png"));
+
+    return object;
+}
+
+GameObject* GameObjectFactory::CreateTileMap(bool drawBorder) {
+    GameObject* object = new GameObject();
+
+    TileSet* tileSet = new TileSet(64, 64, "assets/img/Tileset.png");
+    object->AddComponent(new TileMap(*object, "assets/map/map.txt", tileSet, drawBorder));
 
     return object;
 }
@@ -32,7 +38,7 @@ GameObject* GameObjectFactory::CreateZombie(float x, float y) {
 
     animator->AddAnimation(
         "walking",
-        Animation(0, 3, 10));
+        Animation(0, 3, 0.1f));
 
     animator->AddAnimation(
         "dead",

@@ -50,4 +50,4 @@ clean:
 	@rm -rf $(BUILD_DIR)
 
 
-.PHONY: all run export install update clean
+.PHONY: all run release install update clean
