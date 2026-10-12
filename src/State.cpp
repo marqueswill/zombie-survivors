@@ -1,17 +1,18 @@
 #include "State.h"
 
 #include <GameObjectFactory.h>
+#include <InputManager.h>
 
 #include "components/Zombie.h"
 
 State::State() {
     AddObject(GameObjectFactory::CreateBackground());
-    AddObject(GameObjectFactory::CreateTileMap(false));
+    AddObject(GameObjectFactory::CreateTileMap(true));
 
-    AddObject(GameObjectFactory::CreateZombie(400, 450));
-    AddObject(GameObjectFactory::CreateZombie(500, 450));
-    AddObject(GameObjectFactory::CreateZombie(600, 450));
-    AddObject(GameObjectFactory::CreateZombie(700, 450));
+    // AddObject(GameObjectFactory::CreateZombie(400, 450));
+    // AddObject(GameObjectFactory::CreateZombie(500, 450));
+    // AddObject(GameObjectFactory::CreateZombie(600, 450));
+    // AddObject(GameObjectFactory::CreateZombie(700, 450));
 
     music = Music("assets/audio/BGM.wav");
 
@@ -47,11 +48,6 @@ void State::Update(float dt) {
         objectArray[i]->Update(dt);
     }
 
-    // Flag de interrupção
-    if (SDL_QuitRequested()) {
-        quitRequested = true;
-    }
-
     // Se um objeto foi morto, eu removo ele do array
     for (size_t i = 0; i < objectArray.size();) {
         if (objectArray[i]->IsDead()) {
@@ -59,6 +55,18 @@ void State::Update(float dt) {
         } else {
             i++;
         };
+    }
+
+    // Flag de interrupção
+    InputManager& input = InputManager::GetInstance();
+    if (input.QuitRequested() || input.KeyPress(SDLK_ESCAPE)) {
+        quitRequested = true;
+        return;
+    }
+
+    if (input.KeyPress(SDLK_SPACE)) {
+        // Criar Zombie na posição atual do mouse
+        AddObject(GameObjectFactory::CreateZombie(input.GetMouseX(), input.GetMouseY()));
     }
 }
 

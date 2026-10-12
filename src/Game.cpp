@@ -54,6 +54,8 @@ Game::Game(std::string title, int width, int height) {
     }
 
     state = new State();
+    frameStart = SDL_GetTicks();
+    dt = 0.0f;
 }
 
 Game::~Game() {
@@ -89,14 +91,17 @@ Game::~Game() {
 // Run é um simples loop, que funciona enquanto QuitRequested não
 // retornar true.
 void Game::Run() {
-    bool quitRequested = state->QuitRequested();
+    while (!state->QuitRequested()) {
+        CalculateDeltaTime();
 
-    while (!quitRequested) {
-        state->Update(0);
+        input->Update();
+        state->Update(dt);
+
+        SDL_RenderClear(renderer);
         state->Render();
         SDL_RenderPresent(renderer);
+
         SDL_Delay(33);
-        quitRequested = state->QuitRequested();
     }
 }
 
@@ -117,4 +122,14 @@ Game& Game::GetInstance() {
     }
 
     return *instance;
+}
+
+float Game::GetDeltaTime() {
+    return dt;
+}
+
+void Game::CalculateDeltaTime() {
+    Uint32 currentFrame = SDL_GetTicks();
+    dt = (currentFrame - frameStart) / 1000.0f;
+    frameStart = currentFrame;
 }
