@@ -3,6 +3,7 @@
 
 #include "GameObject.h"
 #include "Sound.h"
+#include "Timer.h"
 #include "components/Component.h"
 
 class Zombie : public Component {
@@ -17,6 +18,9 @@ class Zombie : public Component {
     Sound deathSound;
     Sound hit0Sound;
     bool dead = false;
+    bool hit = false;
+    Timer hitTimer;
+    Timer deathTimer;
 };
 
 #endif

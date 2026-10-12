@@ -45,6 +45,10 @@ GameObject* GameObjectFactory::CreateZombie(float x, float y) {
         "dead",
         Animation(5, 5, 0));
 
+    animator->AddAnimation(
+        "hit",
+        Animation(4, 4, 0));
+
     animator->SetAnimation("walking");
 
     object->AddComponent(animator);
