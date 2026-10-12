@@ -16,17 +16,27 @@ void Animator::Update(float dt) {
         return;
     }
 
-    timeElapsed++;
+    timeElapsed += dt;
+    bool changed = false;
 
-    if (timeElapsed > frameTime) {
-        currentFrame++;
-        if (currentFrame > frameEnd) currentFrame = frameStart;
+    while (timeElapsed >= frameTime) {
         timeElapsed -= frameTime;
+        currentFrame++;
+
+        if (currentFrame > frameEnd) {
+            currentFrame = frameStart;
+        }
+
+        changed = true;
     }
 
-    SpriteRenderer* sprite = associated.GetComponent<SpriteRenderer>();
-    if (sprite != nullptr) {
-        sprite->SetFrame(currentFrame);
+    if (changed) {
+        SpriteRenderer* sprite =
+            associated.GetComponent<SpriteRenderer>();
+
+        if (sprite != nullptr) {
+            sprite->SetFrame(currentFrame);
+        }
     }
 }
 
