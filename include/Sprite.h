@@ -13,7 +13,7 @@
 class Sprite {
    public:
     Sprite();
-    Sprite(std::string file, int frameCountW = 1, int frameCountH = 1);
+    Sprite(std::string file, int frameCountW = 1, int frameCountH = 1, bool cameraFollower = false);
     ~Sprite();
 
     int GetWidth();
@@ -29,10 +29,11 @@ class Sprite {
     void Render(int x, int y, int w, int h);
 
    private:
-    int width;             // Largura da imagem original
-    int height;            // Altura da imagem original
-    int frameCountW;       // Número de colunas na imagem
-    int frameCountH;       // Número de linhas na imagem
+    int width;        // Largura da imagem original
+    int height;       // Altura da imagem original
+    int frameCountW;  // Número de colunas na imagem
+    int frameCountH;  // Número de linhas na imagem
+    bool cameraFollower;
     SDL_Texture* texture;  // Um ponteiro para a imagem real carregada na placa de vídeo
     SDL_Rect clipRect;     // Recorte da imagem original
 };

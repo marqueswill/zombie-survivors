@@ -13,7 +13,8 @@ class SpriteRenderer : public Component {
     SpriteRenderer(GameObject& associated,
                    std::string file,
                    int frameCountW = 1,
-                   int frameCountH = 1);
+                   int frameCountH = 1,
+                   bool cameraFollower = false);
 
     void Open(std::string file);
     void SetFrameCount(int frameCountW,

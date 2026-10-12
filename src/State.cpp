@@ -1,13 +1,13 @@
 #include "State.h"
 
-#include <GameObjectFactory.h>
-#include <InputManager.h>
-
+#include "Camera.h"
+#include "GameObjectFactory.h"
+#include "InputManager.h"
 #include "components/Zombie.h"
 
 State::State() {
     AddObject(GameObjectFactory::CreateBackground());
-    AddObject(GameObjectFactory::CreateTileMap(true));
+    AddObject(GameObjectFactory::CreateTileMap(false));
 
     // AddObject(GameObjectFactory::CreateZombie(400, 450));
     // AddObject(GameObjectFactory::CreateZombie(500, 450));
@@ -64,9 +64,13 @@ void State::Update(float dt) {
         return;
     }
 
+    Camera::Update(dt);
+
     if (input.KeyPress(SDLK_SPACE)) {
         // Criar Zombie na posição atual do mouse
-        AddObject(GameObjectFactory::CreateZombie(input.GetMouseX(), input.GetMouseY()));
+        float mouseWorldX = input.GetMouseX() + Camera::pos.x;
+        float mouseWorldY = input.GetMouseY() + Camera::pos.y;
+        AddObject(GameObjectFactory::CreateZombie(mouseWorldX, mouseWorldY));
     }
 }
 

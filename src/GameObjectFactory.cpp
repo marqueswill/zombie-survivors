@@ -12,7 +12,8 @@ GameObject* GameObjectFactory::CreateBackground() {
     object->box.x = 0;
     object->box.y = 0;
 
-    object->AddComponent(new SpriteRenderer(*object, "assets/img/Background.png"));
+    // cameraFollower true para o background permancer fixo
+    object->AddComponent(new SpriteRenderer(*object, "assets/img/Background.png", 1, 1, true));
 
     return object;
 }
