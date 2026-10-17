@@ -71,7 +71,7 @@ void Zombie::Update(float dt) {
 
     // Causa dano se clicar nele
     InputManager& input = InputManager::GetInstance();
-    if (input.MousePress(SDL_BUTTON_LEFT)) {
+    if (input.MousePress(LEFT_MOUSE_BUTTON)) {
         Vec2 mouseWorld(
             input.GetMouseX() + Camera::pos.x,
             input.GetMouseY() + Camera::pos.y);

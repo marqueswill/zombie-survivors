@@ -59,14 +59,14 @@ void State::Update(float dt) {
 
     // Flag de interrupção
     InputManager& input = InputManager::GetInstance();
-    if (input.QuitRequested() || input.KeyPress(SDLK_ESCAPE)) {
+    if (input.QuitRequested() || input.KeyPress(ESCAPE_KEY)) {
         quitRequested = true;
         return;
     }
 
     Camera::Update(dt);
 
-    if (input.KeyPress(SDLK_SPACE)) {
+    if (input.KeyPress(SPACE_KEY)) {
         // Criar Zombie na posição atual do mouse
         float mouseWorldX = input.GetMouseX() + Camera::pos.x;
         float mouseWorldY = input.GetMouseY() + Camera::pos.y;

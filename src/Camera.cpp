@@ -1,7 +1,8 @@
 #include "Camera.h"
 
-#include "GameObject.h"
 #include <InputManager.h>
+
+#include "GameObject.h"
 
 Vec2 Camera::pos = Vec2(0, 0);
 Vec2 Camera::speed = Vec2(0, 0);
@@ -34,16 +35,16 @@ void Camera::Update(float dt) {
     InputManager& input = InputManager::GetInstance();
     constexpr float cameraSpeed = 400.0f;  // pixels por segundo
 
-    if (input.IsKeyDown(SDLK_LEFT)) {
+    if (input.IsKeyDown(LEFT_ARROW_KEY)) {
         speed.x -= cameraSpeed;
     }
-    if (input.IsKeyDown(SDLK_RIGHT)) {
+    if (input.IsKeyDown(RIGHT_ARROW_KEY)) {
         speed.x += cameraSpeed;
     }
-    if (input.IsKeyDown(SDLK_UP)) {
+    if (input.IsKeyDown(UP_ARROW_KEY)) {
         speed.y -= cameraSpeed;
     }
-    if (input.IsKeyDown(SDLK_DOWN)) {
+    if (input.IsKeyDown(DOWN_ARROW_KEY)) {
         speed.y += cameraSpeed;
     }
 
