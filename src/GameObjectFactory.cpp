@@ -12,7 +12,11 @@ GameObject* GameObjectFactory::CreateBackground() {
     object->box.x = 0;
     object->box.y = 0;
 
-    object->AddComponent(new SpriteRenderer(*object, "assets/img/Background.png"));
+    SpriteRenderer* renderer = new SpriteRenderer(*object, "assets/img/Background.png");
+
+    // cameraFollower true para o background permanecer fixo na tela
+    renderer->SetCameraFollower(true);
+    object->AddComponent(renderer);
 
     return object;
 }
@@ -43,6 +47,10 @@ GameObject* GameObjectFactory::CreateZombie(float x, float y) {
     animator->AddAnimation(
         "dead",
         Animation(5, 5, 0));
+
+    animator->AddAnimation(
+        "hit",
+        Animation(4, 4, 0));
 
     animator->SetAnimation("walking");
 

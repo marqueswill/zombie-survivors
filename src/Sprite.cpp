@@ -1,17 +1,25 @@
 #include "Sprite.h"
 
+#include <Camera.h>
 #include <Resources.h>
 
 #include "Game.h"
 
 Sprite::Sprite()
-    : width(0), height(0), frameCountW(1), frameCountH(1), texture(nullptr), clipRect{0, 0, 0, 0} {}
+    : width(0),
+      height(0),
+      frameCountW(1),
+      frameCountH(1),
+      cameraFollower(false),
+      texture(nullptr),
+      clipRect{0, 0, 0, 0} {}
 
-Sprite::Sprite(std::string file, int frameCountW, int frameCountH)
+Sprite::Sprite(std::string file, int frameCountW, int frameCountH, bool cameraFollower)
     : width(0),
       height(0),
       frameCountW(frameCountW),
       frameCountH(frameCountH),
+      cameraFollower(cameraFollower),
       texture(nullptr),
       clipRect{0, 0, 0, 0} {
     Open(file);
@@ -66,6 +74,11 @@ void Sprite::SetFrameCount(int frameCountW, int frameCountH) {
     this->frameCountH = frameCountH;
 };
 
+// Define se o sprite ignora o deslocamento da câmera (fundo, UI)
+void Sprite::SetCameraFollower(bool cameraFollower) {
+    this->cameraFollower = cameraFollower;
+}
+
 // Retorna true se texture estiver alocada
 bool Sprite::IsOpen() {
     return texture != nullptr;
@@ -119,8 +132,12 @@ void Sprite::Render(int x, int y, int w, int h) {
     dstrect.x = x;
     dstrect.y = y;
 
+    if (!cameraFollower) {
+        dstrect.x -= static_cast<int>(Camera::pos.x);
+        dstrect.y -= static_cast<int>(Camera::pos.y);
+    }
+
     dstrect.w = (w > 0) ? w : clipRect.w;
     dstrect.h = (h > 0) ? h : clipRect.h;
-
     SDL_RenderCopy(renderer, texture, &clipRect, &dstrect);
 }

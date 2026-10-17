@@ -54,6 +54,7 @@ Game::Game(std::string title, int width, int height) {
     }
 
     state = new State();
+    input = &InputManager::GetInstance();
     frameStart = SDL_GetTicks();
     dt = 0.0f;
 }

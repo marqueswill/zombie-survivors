@@ -85,6 +85,7 @@ int& TileMap::At(int x, int y, int z) {
 
 // Renderiza uma camada do mapa, tile a tile.
 #include "Game.h"
+#include <Camera.h>
 
 void TileMap::RenderLayer(int layer) {
     if (!tileSet) {
@@ -110,8 +111,8 @@ void TileMap::RenderLayer(int layer) {
 
                 if (drawBorder) {
                     SDL_Rect border = {
-                        tileX,
-                        tileY,
+                        tileX - static_cast<int>(Camera::pos.x),
+                        tileY - static_cast<int>(Camera::pos.y),
                         tileSet->GetTileWidth(),
                         tileSet->GetTileHeight()};
 
