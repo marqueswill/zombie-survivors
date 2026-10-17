@@ -74,6 +74,11 @@ void Sprite::SetFrameCount(int frameCountW, int frameCountH) {
     this->frameCountH = frameCountH;
 };
 
+// Define se o sprite ignora o deslocamento da câmera (fundo, UI)
+void Sprite::SetCameraFollower(bool cameraFollower) {
+    this->cameraFollower = cameraFollower;
+}
+
 // Retorna true se texture estiver alocada
 bool Sprite::IsOpen() {
     return texture != nullptr;

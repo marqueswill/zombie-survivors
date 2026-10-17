@@ -25,6 +25,7 @@ class Sprite {
     void SetClip(int x, int y, int w, int h);
     void SetFrame(int frame);
     void SetFrameCount(int frameCountW, int frameCountH);
+    void SetCameraFollower(bool cameraFollower);
 
     void Render(int x, int y, int w, int h);
 
