@@ -92,6 +92,8 @@ Game::~Game() {
 // Run é um simples loop, que funciona enquanto QuitRequested não
 // retornar true.
 void Game::Run() {
+    state->Start();
+
     while (!state->QuitRequested()) {
         CalculateDeltaTime();
 
