@@ -17,8 +17,11 @@ class GameObject {
     ~GameObject();
 
     Rect box;
+    bool started;
+
     bool IsDead();
 
+    void Start();
     void Update(float dt);
     void Render();
     void RequestDelete();

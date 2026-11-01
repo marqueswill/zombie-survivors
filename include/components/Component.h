@@ -3,6 +3,7 @@
 
 class GameObject;
 
+
 // Essa é a classe que deve ser utilizada para adicionar lógica ao jogo
 // utilizando herança. Todos os componentes do nosso jogo terão, no mínimo,
 // as seguintes características:
@@ -14,6 +15,7 @@ class Component {
     Component(GameObject& associated);
     virtual ~Component();
 
+    virtual void Start();
     virtual void Update(float dt) = 0;
     virtual void Render() = 0;
 

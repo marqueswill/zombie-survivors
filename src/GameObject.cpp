@@ -2,7 +2,7 @@
 
 #include "components/Component.h"
 
-GameObject::GameObject() : isDead(false) {
+GameObject::GameObject() : started(false), isDead(false) {
     box = Rect();
     components = {};
 };
@@ -15,6 +15,15 @@ GameObject::~GameObject() {
 
     components.clear();
 };
+
+// Chama o Start de todos os componentes. Executado uma única vez.
+void GameObject::Start() {
+    for (size_t i = 0; i < components.size(); i++) {
+        components[i]->Start();
+    }
+
+    started = true;
+}
 
 // Percorre o vetor de componentes chamando o Update(dt) dos mesmos.
 void GameObject::Update(float dt) {
@@ -43,6 +52,11 @@ void GameObject::RequestDelete() {
 // Adiciona o componente ao vetor de componentes
 void GameObject::AddComponent(Component* cpt) {
     components.push_back(cpt);
+
+    // Se o objeto já foi iniciado, o componente novo precisa ser iniciado agora
+    if (started) {
+        cpt->Start();
+    }
 }
 
 // Remove o componente do vetor de componentes se ele estiver lá
