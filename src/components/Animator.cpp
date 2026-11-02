@@ -8,7 +8,8 @@ Animator::Animator(GameObject& associated)
       frameEnd(0),
       frameTime(0),
       currentFrame(0),
-      timeElapsed(0) {
+      timeElapsed(0),
+      current("") {
 }
 
 void Animator::Update(float dt) {
@@ -43,14 +44,16 @@ void Animator::Update(float dt) {
 void Animator::Render() {}
 
 void Animator::SetAnimation(std::string name) {
-    auto it = animations.find(name);
-
-    if (it == animations.end()) {
+    // Se já está tocando essa animação, não reinicia
+    if (name == current) {
         return;
     }
 
+    auto it = animations.find(name);
+
     Animation animation = it->second;
 
+    current = name;
     frameStart = animation.frameStart;
     frameEnd = animation.frameEnd;
     frameTime = animation.frameTime;
