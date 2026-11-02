@@ -1,6 +1,7 @@
 #include "GameObjectFactory.h"
 
 #include "components/Animator.h"
+#include "components/Character.h"
 #include "components/SpriteRenderer.h"
 #include "components/TileMap.h"
 #include "components/TileSet.h"
@@ -62,6 +63,19 @@ GameObject* GameObjectFactory::CreateZombie(float x, float y) {
             "assets/img/Enemy.png",
             3,
             2));
+
+    return object;
+}
+
+// Cria o personagem do jogador centralizado em (x, y)
+GameObject* GameObjectFactory::CreatePlayer(float x, float y) {
+    GameObject* object = new GameObject();
+
+    // Character adiciona o SpriteRenderer, que define box.w e box.h
+    object->AddComponent(new Character(*object, "assets/img/Player.png"));
+
+    object->box.x = x - object->box.w / 2;
+    object->box.y = y - object->box.h / 2;
 
     return object;
 }

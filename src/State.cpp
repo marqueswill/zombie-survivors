@@ -9,10 +9,10 @@ State::State() : quitRequested(false), started(false) {
     AddObject(GameObjectFactory::CreateBackground());
     AddObject(GameObjectFactory::CreateTileMap(true));
 
-    // AddObject(GameObjectFactory::CreateZombie(400, 450));
-    // AddObject(GameObjectFactory::CreateZombie(500, 450));
-    // AddObject(GameObjectFactory::CreateZombie(600, 450));
-    // AddObject(GameObjectFactory::CreateZombie(700, 450));
+    // Personagem no centro do mapa, com a câmera seguindo ele
+    GameObject* player = GameObjectFactory::CreatePlayer(1280, 1280);
+    AddObject(player);
+    Camera::Follow(player);
 
     music = Music("assets/audio/BGM.wav");
 

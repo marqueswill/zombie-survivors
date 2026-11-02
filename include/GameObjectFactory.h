@@ -8,6 +8,7 @@ class GameObjectFactory {
     static GameObject* CreateBackground();
     static GameObject* CreateTileMap(bool drawBorder = false);
     static GameObject* CreateZombie(float x, float y);
+    static GameObject* CreatePlayer(float x, float y);
 };
 
 #endif
