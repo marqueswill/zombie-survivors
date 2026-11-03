@@ -1,6 +1,7 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#include <memory>
 #include <queue>
 #include <string>
 
@@ -28,6 +29,7 @@ class Character : public Component {
     Character(GameObject& associated, std::string sprite);
     ~Character();
 
+    void Start();
     void Update(float dt);
     void Render();
 
@@ -37,6 +39,7 @@ class Character : public Component {
     static Character* player;
 
    private:
+    std::weak_ptr<GameObject> gun;
     std::queue<Command> taskQueue;
     Vec2 speed;
     float linearSpeed;

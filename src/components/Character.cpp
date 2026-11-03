@@ -1,8 +1,9 @@
 #include "components/Character.h"
 
+#include "Game.h"
 #include "components/Animator.h"
+#include "components/Gun.h"
 #include "components/SpriteRenderer.h"
-
 Character* Character::player = nullptr;
 
 Character::Command::Command(CommandType type, float x, float y)
@@ -36,6 +37,17 @@ Character::~Character() {
     }
 }
 
+// Cria a arma. Fica aqui (e não no construtor) porque a Gun precisa de
+// um weak_ptr para este objeto, que só existe depois de ele estar no State.
+void Character::Start() {
+    State& state = Game::GetInstance().GetState();
+
+    GameObject* gunObject = new GameObject();
+    gunObject->AddComponent(new Gun(*gunObject, state.GetObjectPtr(&associated)));
+
+    gun = state.AddObject(gunObject);
+}
+
 void Character::Update(float dt) {
     Animator* animator = associated.GetComponent<Animator>();
 
@@ -67,6 +79,14 @@ void Character::Update(float dt) {
             speed = task.pos.normalize() * linearSpeed;
             associated.box.x += speed.x * dt;
             associated.box.y += speed.y * dt;
+        } else if (task.type == Command::SHOOT) {
+            std::shared_ptr<GameObject> gunObject = gun.lock();
+            if (gunObject != nullptr) {
+                Gun* gunComponent = gunObject->GetComponent<Gun>();
+                if (gunComponent != nullptr) {
+                    gunComponent->Shoot(task.pos);
+                }
+            }
         }
 
         taskQueue.pop();
