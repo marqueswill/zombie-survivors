@@ -2,6 +2,7 @@
 
 #include "components/Animator.h"
 #include "components/Character.h"
+#include "components/PlayerController.h"
 #include "components/SpriteRenderer.h"
 #include "components/TileMap.h"
 #include "components/TileSet.h"
@@ -76,6 +77,8 @@ GameObject* GameObjectFactory::CreatePlayer(float x, float y) {
 
     object->box.x = x - object->box.w / 2;
     object->box.y = y - object->box.h / 2;
+    
+    object->AddComponent(new PlayerController(*object));
 
     return object;
 }
