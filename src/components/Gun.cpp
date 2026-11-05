@@ -1,6 +1,8 @@
 #include "components/Gun.h"
 
+#include "Game.h"
 #include "components/Animator.h"
+#include "components/Bullet.h"
 #include "components/SpriteRenderer.h"
 
 // Distância entre o centro do corpo e o centro da arma
@@ -10,6 +12,11 @@
 #define SHOT_DELAY 0.25f   // 1 -> 2: parada depois do tiro
 #define RELOAD_TIME 0.5f   // 2 -> 3: animação de recarregar
 #define READY_DELAY 0.15f  // 3 -> 0: recarregada, mas ainda não pronta
+
+// Parâmetros do projétil
+#define BULLET_SPEED 800.0f
+#define BULLET_DAMAGE 10
+#define BULLET_MAX_DISTANCE 1000.0f
 
 Gun::Gun(GameObject& associated, std::weak_ptr<GameObject> character)
     : Component(associated),
@@ -86,6 +93,18 @@ void Gun::Shoot(Vec2 target) {
 
     // Ângulo do centro do personagem até o alvo
     angle = (target - owner->box.getCenter()).inclination();
+
+    // Cria o projétil saindo do cano (ponta da arma na direção do ângulo)
+    Vec2 center = owner->box.getCenter();
+    Vec2 muzzle = center + Vec2(GUN_DISTANCE + associated.box.w / 2, 0).rotate(angle);
+
+    GameObject* bulletObject = new GameObject();
+    bulletObject->AddComponent(
+        new Bullet(*bulletObject, angle, BULLET_SPEED, BULLET_DAMAGE, BULLET_MAX_DISTANCE));
+    bulletObject->box.x = muzzle.x - bulletObject->box.w / 2;
+    bulletObject->box.y = muzzle.y - bulletObject->box.h / 2;
+
+    Game::GetInstance().GetState().AddObject(bulletObject);
 
     shotSound.Play(1);
     cooldownState = 1;
