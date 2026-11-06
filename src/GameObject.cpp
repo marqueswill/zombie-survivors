@@ -2,7 +2,7 @@
 
 #include "components/Component.h"
 
-GameObject::GameObject() : started(false), isDead(false) {
+GameObject::GameObject() : started(false), angleDeg(0), isDead(false) {
     box = Rect();
     components = {};
 };

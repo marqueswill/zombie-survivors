@@ -5,6 +5,7 @@
 #define INCLUDE_SDL
 #define INCLUDE_SDL_IMAGE
 #include "SDL_include.h"
+#include "Vec2.h"
 
 // A classe Sprite encapsula o carregamento e uso de SDL_Textures, o tipo da SDL que contém uma imagem carregada do disco pronta para ser renderizada num SDL_Renderer.Sprite tem quatro atributos :
 // - texture : A imagem em si
@@ -26,8 +27,11 @@ class Sprite {
     void SetFrame(int frame);
     void SetFrameCount(int frameCountW, int frameCountH);
     void SetCameraFollower(bool cameraFollower);
+    void SetScale(float scaleX, float scaleY);
+    Vec2 GetScale();
+    void SetFlip(SDL_RendererFlip flip);
 
-    void Render(int x, int y, int w, int h);
+    void Render(int x, int y, int w, int h, float angle = 0);
 
    private:
     int width;        // Largura da imagem original
@@ -35,8 +39,10 @@ class Sprite {
     int frameCountW;  // Número de colunas na imagem
     int frameCountH;  // Número de linhas na imagem
     bool cameraFollower;
-    SDL_Texture* texture;  // Um ponteiro para a imagem real carregada na placa de vídeo
-    SDL_Rect clipRect;     // Recorte da imagem original
+    SDL_Texture* texture;   // Um ponteiro para a imagem real carregada na placa de vídeo
+    SDL_Rect clipRect;      // Recorte da imagem original
+    SDL_RendererFlip flip;  // Espelhamento
+    Vec2 scale;             // Escala em x e y
 };
 
 #endif

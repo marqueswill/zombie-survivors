@@ -18,6 +18,7 @@ class GameObject {
 
     Rect box;
     bool started;
+    double angleDeg;  // Rotação em graus, sentido horário
 
     bool IsDead();
 

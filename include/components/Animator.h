@@ -24,7 +24,8 @@ class Animator : public Component {
     float frameTime;
     int currentFrame;
     float timeElapsed;
-    std::string current;  // Nome da animação atual
+    std::string current;    // Nome da animação atual
+    SDL_RendererFlip flip;  // Espelhamento da animação atual
 };
 
 #endif

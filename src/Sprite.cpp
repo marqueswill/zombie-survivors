@@ -12,7 +12,9 @@ Sprite::Sprite()
       frameCountH(1),
       cameraFollower(false),
       texture(nullptr),
-      clipRect{0, 0, 0, 0} {}
+      clipRect{0, 0, 0, 0},
+      flip(SDL_FLIP_NONE),
+      scale(1, 1) {}
 
 Sprite::Sprite(std::string file, int frameCountW, int frameCountH, bool cameraFollower)
     : width(0),
@@ -21,7 +23,9 @@ Sprite::Sprite(std::string file, int frameCountW, int frameCountH, bool cameraFo
       frameCountH(frameCountH),
       cameraFollower(cameraFollower),
       texture(nullptr),
-      clipRect{0, 0, 0, 0} {
+      clipRect{0, 0, 0, 0},
+      flip(SDL_FLIP_NONE),
+      scale(1, 1) {
     Open(file);
 }
 
@@ -33,12 +37,32 @@ Sprite::~Sprite() {
     // }
 }
 
+// Largura de um frame, já ajustada pela escala
 int Sprite::GetWidth() {
-    return clipRect.w;
+    return static_cast<int>(clipRect.w * scale.x);
 }
 
+// Altura de um frame, já ajustada pela escala
 int Sprite::GetHeight() {
-    return clipRect.h;
+    return static_cast<int>(clipRect.h * scale.y);
+}
+
+// Define a escala. Um valor 0 mantém a escala atual naquele eixo.
+void Sprite::SetScale(float scaleX, float scaleY) {
+    if (scaleX != 0) {
+        scale.x = scaleX;
+    }
+    if (scaleY != 0) {
+        scale.y = scaleY;
+    }
+}
+
+Vec2 Sprite::GetScale() {
+    return scale;
+}
+
+void Sprite::SetFlip(SDL_RendererFlip flip) {
+    this->flip = flip;
 }
 
 // Seleciona qual sub-região da imagem (spritesheet) será exibida
@@ -121,7 +145,7 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 // membros w e h diferirem das dimensões do clip, causarão uma
 // mudança na escala, contraindo ou expandindo a imagem para se
 // adaptar a esses valores
-void Sprite::Render(int x, int y, int w, int h) {
+void Sprite::Render(int x, int y, int w, int h, float angle) {
     if (texture == nullptr) {
         return;
     }
@@ -137,7 +161,10 @@ void Sprite::Render(int x, int y, int w, int h) {
         dstrect.y -= static_cast<int>(Camera::pos.y);
     }
 
-    dstrect.w = (w > 0) ? w : clipRect.w;
-    dstrect.h = (h > 0) ? h : clipRect.h;
-    SDL_RenderCopy(renderer, texture, &clipRect, &dstrect);
+    dstrect.w = (w > 0) ? w : GetWidth();
+    dstrect.h = (h > 0) ? h : GetHeight();
+
+    // RenderCopyEx: angle em graus (sentido horário), center nullptr = gira
+    // em torno do centro de dstrect, flip = espelhamento
+    SDL_RenderCopyEx(renderer, texture, &clipRect, &dstrect, angle, nullptr, flip);
 }

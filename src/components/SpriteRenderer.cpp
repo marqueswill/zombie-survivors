@@ -28,8 +28,22 @@ void SpriteRenderer::SetFrameCount(int frameCountW, int frameCountH) {
     associated.box.h = sprite.GetHeight();
 }
 
-void SpriteRenderer::SetFrame(int frame) {
+void SpriteRenderer::SetFrame(int frame, SDL_RendererFlip flip) {
     sprite.SetFrame(frame);
+    sprite.SetFlip(flip);
+}
+
+// Muda a escala do sprite e ajusta a box do GameObject, mantendo o
+// centro no mesmo lugar
+void SpriteRenderer::SetScale(float scaleX, float scaleY) {
+    Vec2 center = associated.box.getCenter();
+
+    sprite.SetScale(scaleX, scaleY);
+
+    associated.box.w = sprite.GetWidth();
+    associated.box.h = sprite.GetHeight();
+    associated.box.x = center.x - associated.box.w / 2;
+    associated.box.y = center.y - associated.box.h / 2;
 }
 
 void SpriteRenderer::SetCameraFollower(bool cameraFollower) {
@@ -43,5 +57,6 @@ void SpriteRenderer::Render() {
         associated.box.x,
         associated.box.y,
         associated.box.w,
-        associated.box.h);
+        associated.box.h,
+        associated.angleDeg);
 }
