@@ -52,6 +52,10 @@ void Animator::SetAnimation(std::string name) {
 
     auto it = animations.find(name);
 
+    if (it == animations.end()) {
+        return;
+    }
+
     Animation animation = it->second;
 
     current = name;
