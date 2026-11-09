@@ -45,6 +45,7 @@ class Character : public Component {
     float linearSpeed;
     int hp;
     Timer deathTimer;
+    bool facingLeft;  // Para escolher a animação espelhada
 };
 
 #endif

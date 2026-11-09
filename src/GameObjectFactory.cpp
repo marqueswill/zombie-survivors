@@ -1,7 +1,9 @@
 #include "GameObjectFactory.h"
 
 #include "components/Animator.h"
+#include "components/Bullet.h"
 #include "components/Character.h"
+#include "components/Gun.h"
 #include "components/PlayerController.h"
 #include "components/SpriteRenderer.h"
 #include "components/TileMap.h"
@@ -77,8 +79,30 @@ GameObject* GameObjectFactory::CreatePlayer(float x, float y) {
 
     object->box.x = x - object->box.w / 2;
     object->box.y = y - object->box.h / 2;
-    
+
     object->AddComponent(new PlayerController(*object));
+
+    return object;
+}
+
+// Cria a arma que acompanha o personagem indicado
+GameObject* GameObjectFactory::CreateGun(std::weak_ptr<GameObject> character) {
+    GameObject* object = new GameObject();
+
+    object->AddComponent(new Gun(*object, character));
+
+    return object;
+}
+
+// Cria um projétil centralizado em position, indo na direção de angle (radianos)
+GameObject* GameObjectFactory::CreateBullet(Vec2 position, float angle, float speed, int damage, float maxDistance) {
+    GameObject* object = new GameObject();
+
+    // Bullet adiciona o SpriteRenderer, que define box.w e box.h
+    object->AddComponent(new Bullet(*object, angle, speed, damage, maxDistance));
+
+    object->box.x = position.x - object->box.w / 2;
+    object->box.y = position.y - object->box.h / 2;
 
     return object;
 }

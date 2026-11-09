@@ -1,9 +1,11 @@
 #include "components/Character.h"
 
 #include "Game.h"
+#include "GameObjectFactory.h"
 #include "components/Animator.h"
 #include "components/Gun.h"
 #include "components/SpriteRenderer.h"
+
 Character* Character::player = nullptr;
 
 Character::Command::Command(CommandType type, float x, float y)
@@ -14,7 +16,8 @@ Character::Character(GameObject& associated, std::string sprite)
     : Component(associated),
       speed(0, 0),
       linearSpeed(200),
-      hp(100) {
+      hp(100),
+      facingLeft(false) {
     // Player.png: 3 colunas x 4 linhas
     associated.AddComponent(new SpriteRenderer(associated, sprite, 3, 4));
 
@@ -22,6 +25,8 @@ Character::Character(GameObject& associated, std::string sprite)
     animator->AddAnimation("walking", Animation(0, 5, 0.1f));
     animator->AddAnimation("idle", Animation(6, 9, 0.2f));
     animator->AddAnimation("dead", Animation(10, 11, 0.5f));
+    animator->AddAnimation("walking_left", Animation(0, 5, 0.1f, SDL_FLIP_HORIZONTAL));
+    animator->AddAnimation("idle_left", Animation(6, 9, 0.2f, SDL_FLIP_HORIZONTAL));
     animator->SetAnimation("idle");
     associated.AddComponent(animator);
 
@@ -41,11 +46,7 @@ Character::~Character() {
 // um weak_ptr para este objeto, que só existe depois de ele estar no State.
 void Character::Start() {
     State& state = Game::GetInstance().GetState();
-
-    GameObject* gunObject = new GameObject();
-    gunObject->AddComponent(new Gun(*gunObject, state.GetObjectPtr(&associated)));
-
-    gun = state.AddObject(gunObject);
+    gun = state.AddObject(GameObjectFactory::CreateGun(state.GetObjectPtr(&associated)));
 }
 
 void Character::Update(float dt) {
@@ -92,11 +93,20 @@ void Character::Update(float dt) {
         taskQueue.pop();
     }
 
+    // Só troca o lado quando há movimento horizontal
+    if (speed.x < 0) {
+        facingLeft = true;
+    } else if (speed.x > 0) {
+        facingLeft = false;
+    }
+
     if (animator != nullptr) {
+        std::string suffix = facingLeft ? "_left" : "";
+
         if (speed.mod() > 0) {
-            animator->SetAnimation("walking");
+            animator->SetAnimation("walking" + suffix);
         } else {
-            animator->SetAnimation("idle");
+            animator->SetAnimation("idle" + suffix);
         }
     }
 }

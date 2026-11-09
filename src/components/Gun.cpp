@@ -1,10 +1,12 @@
 #include "components/Gun.h"
 
+#include <cmath>
+
 #include "Game.h"
+#include "GameObjectFactory.h"
 #include "components/Animator.h"
 #include "components/Bullet.h"
 #include "components/SpriteRenderer.h"
-
 // Distância entre o centro do corpo e o centro da arma
 #define GUN_DISTANCE 30.0f
 
@@ -49,6 +51,15 @@ void Gun::Update(float dt) {
 
     associated.box.x = center.x + offset.x - associated.box.w / 2;
     associated.box.y = center.y + offset.y - associated.box.h / 2;
+
+    // Rotaciona a arma para o ângulo. Se ela apontar para a esquerda,
+    // espelha na vertical para não ficar de cabeça pra baixo.
+    associated.angleDeg = angle * 180 / M_PI;
+
+    SpriteRenderer* renderer = associated.GetComponent<SpriteRenderer>();
+    if (renderer != nullptr) {
+        renderer->SetFlip(std::cos(angle) < 0 ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);
+    }
 
     // Máquina de estados do cooldown
     if (cooldownState == 0) {
@@ -98,13 +109,7 @@ void Gun::Shoot(Vec2 target) {
     Vec2 center = owner->box.getCenter();
     Vec2 muzzle = center + Vec2(GUN_DISTANCE + associated.box.w / 2, 0).rotate(angle);
 
-    GameObject* bulletObject = new GameObject();
-    bulletObject->AddComponent(
-        new Bullet(*bulletObject, angle, BULLET_SPEED, BULLET_DAMAGE, BULLET_MAX_DISTANCE));
-    bulletObject->box.x = muzzle.x - bulletObject->box.w / 2;
-    bulletObject->box.y = muzzle.y - bulletObject->box.h / 2;
-
-    Game::GetInstance().GetState().AddObject(bulletObject);
+    Game::GetInstance().GetState().AddObject(GameObjectFactory::CreateBullet(muzzle, angle, BULLET_SPEED, BULLET_DAMAGE, BULLET_MAX_DISTANCE));
 
     shotSound.Play(1);
     cooldownState = 1;

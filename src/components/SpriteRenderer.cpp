@@ -33,6 +33,10 @@ void SpriteRenderer::SetFrame(int frame, SDL_RendererFlip flip) {
     sprite.SetFlip(flip);
 }
 
+void SpriteRenderer::SetFlip(SDL_RendererFlip flip) {
+    sprite.SetFlip(flip);
+}
+
 // Muda a escala do sprite e ajusta a box do GameObject, mantendo o
 // centro no mesmo lugar
 void SpriteRenderer::SetScale(float scaleX, float scaleY) {

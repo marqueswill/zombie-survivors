@@ -24,6 +24,7 @@ class SpriteRenderer : public Component {
     void SetFrame(int frame, SDL_RendererFlip flip = SDL_FLIP_NONE);
     void SetCameraFollower(bool cameraFollower);
     void SetScale(float scaleX, float scaleY);
+    void SetFlip(SDL_RendererFlip flip);
 
    private:
     Sprite sprite;
