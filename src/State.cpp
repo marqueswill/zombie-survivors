@@ -1,8 +1,12 @@
 #include "State.h"
 
+#include <cmath>
+
 #include "Camera.h"
+#include "Collision.h"
 #include "GameObjectFactory.h"
 #include "InputManager.h"
+#include "components/Collider.h"
 #include "components/Zombie.h"
 
 State::State() : quitRequested(false), started(false) {
@@ -57,6 +61,27 @@ void State::Update(float dt) {
     // Percoore o array de objetos atualizando cada um
     for (size_t i = 0; i < objectArray.size(); i++) {
         objectArray[i]->Update(dt);
+    }
+
+    // Testa colisaoão entre cada par de objetos com Collider, uma vez por par
+    for (size_t i = 0; i < objectArray.size(); i++) {
+        for (size_t j = i + 1; j < objectArray.size(); j++) {
+            // um objeto pode remover o próprio Collider ao colidir
+            Collider* colliderA = objectArray[i]->GetComponent<Collider>();
+            Collider* colliderB = objectArray[j]->GetComponent<Collider>();
+
+            if (colliderA == nullptr || colliderB == nullptr) {
+                continue;
+            }
+
+            float angleA = objectArray[i]->angleDeg * M_PI / 180;
+            float angleB = objectArray[j]->angleDeg * M_PI / 180;
+
+            if (Collision::IsColliding(colliderA->box, colliderB->box, angleA, angleB)) {
+                objectArray[i]->NotifyCollision(*objectArray[j]);
+                objectArray[j]->NotifyCollision(*objectArray[i]);
+            }
+        }
     }
 
     // Se um objeto foi morto, eu removo ele do array
