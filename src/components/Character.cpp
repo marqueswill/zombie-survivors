@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "GameObjectFactory.h"
 #include "components/Animator.h"
+#include "components/Collider.h"
 #include "components/Gun.h"
 #include "components/SpriteRenderer.h"
 
@@ -29,6 +30,7 @@ Character::Character(GameObject& associated, std::string sprite)
     animator->AddAnimation("idle_left", Animation(6, 9, 0.2f, SDL_FLIP_HORIZONTAL));
     animator->SetAnimation("idle");
     associated.AddComponent(animator);
+    associated.AddComponent(new Collider(associated));
 
     if (player == nullptr) {
         player = this;

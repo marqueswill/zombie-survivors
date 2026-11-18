@@ -2,6 +2,7 @@
 
 #include <cmath>
 
+#include "components/Collider.h"
 #include "components/SpriteRenderer.h"
 // angle em radianos
 Bullet::Bullet(GameObject& associated, float angle, float speed, int damage, float maxDistance)
@@ -12,7 +13,7 @@ Bullet::Bullet(GameObject& associated, float angle, float speed, int damage, flo
     SpriteRenderer* renderer = new SpriteRenderer(associated, "assets/img/Bullet.png");
     renderer->SetScale(0.6f, 0.6f);
     associated.AddComponent(renderer);
-
+    associated.AddComponent(new Collider(associated));
     // Bullet.png aponta para cima, por isso soma 90 graus
     associated.angleDeg = angle * 180 / M_PI + 90;
 }

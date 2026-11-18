@@ -3,12 +3,14 @@
 #include "Camera.h"
 #include "InputManager.h"
 #include "components/Animator.h"
+#include "components/Collider.h"
 
 Zombie::Zombie(GameObject& associated)
     : Component(associated),
       hitpoints(30),
       deathSound(Sound("assets/audio/Dead.wav")),
       hit0Sound(Sound("assets/audio/Hit0.wav")) {
+    associated.AddComponent(new Collider(associated));
 }
 
 void Zombie::Damage(int damage) {
