@@ -12,3 +12,8 @@ Component::~Component() {
 // Por padrão não faz nada; os componentes que precisarem sobrescrevem.
 void Component::Start() {
 }
+
+// Chamado quando o GameObject colide com outro. Por padrão não faz nada.
+void Component::NotifyCollision(GameObject& other) {
+    (void)other;
+}

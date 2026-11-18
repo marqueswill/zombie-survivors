@@ -49,6 +49,13 @@ void GameObject::RequestDelete() {
     isDead = true;
 }
 
+// Avisa todos os componentes de que este objeto colidiu com other
+void GameObject::NotifyCollision(GameObject& other) {
+    for (size_t i = 0; i < components.size(); i++) {
+        components[i]->NotifyCollision(other);
+    }
+}
+
 // Adiciona o componente ao vetor de componentes
 void GameObject::AddComponent(Component* cpt) {
     components.push_back(cpt);
