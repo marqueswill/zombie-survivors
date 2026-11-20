@@ -14,6 +14,7 @@ class Bullet : public Component {
     void Update(float dt);
     void Render();
     int GetDamage();
+    void NotifyCollision(GameObject& other);
 
    private:
     Vec2 speed;

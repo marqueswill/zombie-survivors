@@ -2,8 +2,10 @@
 
 #include <cmath>
 
+#include "components/Character.h"
 #include "components/Collider.h"
 #include "components/SpriteRenderer.h"
+#include "components/Zombie.h"
 // angle em radianos
 Bullet::Bullet(GameObject& associated, float angle, float speed, int damage, float maxDistance)
     : Component(associated),
@@ -35,4 +37,11 @@ void Bullet::Render() {
 
 int Bullet::GetDamage() {
     return damage;
+}
+
+// Some ao acertar um Character ou um Zombie. Bullets não colidem entre si.
+void Bullet::NotifyCollision(GameObject& other) {
+    if (other.GetComponent<Character>() != nullptr || other.GetComponent<Zombie>() != nullptr) {
+        associated.RequestDelete();
+    }
 }

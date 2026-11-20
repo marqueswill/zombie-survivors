@@ -12,6 +12,7 @@ class Zombie : public Component {
     void Damage(int damage);
     void Update(float dt);
     void Render();
+    void NotifyCollision(GameObject& other);
 
    private:
     int hitpoints;

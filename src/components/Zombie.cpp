@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "InputManager.h"
 #include "components/Animator.h"
+#include "components/Bullet.h"
 #include "components/Collider.h"
 
 Zombie::Zombie(GameObject& associated)
@@ -70,18 +71,14 @@ void Zombie::Update(float dt) {
             }
         }
     }
-
-    // Causa dano se clicar nele
-    InputManager& input = InputManager::GetInstance();
-    if (input.MousePress(LEFT_MOUSE_BUTTON)) {
-        Vec2 mouseWorld(
-            input.GetMouseX() + Camera::pos.x,
-            input.GetMouseY() + Camera::pos.y);
-
-        if (associated.box.contains(mouseWorld)) {
-            Damage(10);
-        }
-    }
 }
 
 void Zombie::Render() {}
+
+// Toma dano das Bullets
+void Zombie::NotifyCollision(GameObject& other) {
+    Bullet* bullet = other.GetComponent<Bullet>();
+    if (bullet != nullptr) {
+        Damage(bullet->GetDamage());
+    }
+}
