@@ -3,9 +3,15 @@
 #include "Game.h"
 #include "GameObjectFactory.h"
 #include "components/Animator.h"
+#include "components/Bullet.h"
 #include "components/Collider.h"
 #include "components/Gun.h"
 #include "components/SpriteRenderer.h"
+#include "components/Zombie.h"
+
+// Dano por contato com Zombie e intervalo mínimo entre dois danos
+#define ZOMBIE_DAMAGE 10
+#define ZOMBIE_DAMAGE_COOLDOWN 1.0f
 
 Character* Character::player = nullptr;
 
@@ -18,6 +24,8 @@ Character::Character(GameObject& associated, std::string sprite)
       speed(0, 0),
       linearSpeed(200),
       hp(100),
+      hitSound("assets/audio/Hit1.wav"),
+      deathSound("assets/audio/Dead.wav"),
       facingLeft(false) {
     // Player.png: 3 colunas x 4 linhas
     associated.AddComponent(new SpriteRenderer(associated, sprite, 3, 4));
@@ -53,6 +61,8 @@ void Character::Start() {
 
 void Character::Update(float dt) {
     Animator* animator = associated.GetComponent<Animator>();
+
+    damageCooldown.Update(dt);
 
     // Morto: espera a animação de morte e se remove
     if (hp <= 0) {
@@ -119,4 +129,32 @@ void Character::Render() {
 // Coloca a tarefa na fila
 void Character::Issue(Command task) {
     taskQueue.push(task);
+}
+
+// Toma dano de Bullets e, com cooldown, de Zombies
+void Character::NotifyCollision(GameObject& other) {
+    if (hp <= 0) {
+        return;
+    }
+
+    Bullet* bullet = other.GetComponent<Bullet>();
+    if (bullet != nullptr) {
+        TakeDamage(bullet->GetDamage());
+        return;
+    }
+
+    if (other.GetComponent<Zombie>() != nullptr && damageCooldown.Get() >= ZOMBIE_DAMAGE_COOLDOWN) {
+        TakeDamage(ZOMBIE_DAMAGE);
+        damageCooldown.Restart();
+    }
+}
+
+void Character::TakeDamage(int damage) {
+    hp -= damage;
+
+    if (hp <= 0) {
+        deathSound.Play(1);
+    } else {
+        hitSound.Play(1);
+    }
 }

@@ -6,6 +6,7 @@
 #include <string>
 
 #include "GameObject.h"
+#include "Sound.h"
 #include "Timer.h"
 #include "Vec2.h"
 #include "components/Component.h"
@@ -32,6 +33,7 @@ class Character : public Component {
     void Start();
     void Update(float dt);
     void Render();
+    void NotifyCollision(GameObject& other);
 
     void Issue(Command task);
 
@@ -39,13 +41,18 @@ class Character : public Component {
     static Character* player;
 
    private:
+    void TakeDamage(int damage);
+
     std::weak_ptr<GameObject> gun;
     std::queue<Command> taskQueue;
     Vec2 speed;
     float linearSpeed;
     int hp;
     Timer deathTimer;
-    bool facingLeft;  // Para escolher a animação espelhada
+    Timer damageCooldown;  // Evita tomar dano de Zombie todo frame
+    Sound hitSound;
+    Sound deathSound;
+    bool facingLeft;
 };
 
 #endif
