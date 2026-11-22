@@ -7,8 +7,9 @@
 #include "components/SpriteRenderer.h"
 #include "components/Zombie.h"
 // angle em radianos
-Bullet::Bullet(GameObject& associated, float angle, float speed, int damage, float maxDistance)
+Bullet::Bullet(GameObject& associated, float angle, float speed, int damage, float maxDistance, bool targetsPlayer)
     : Component(associated),
+      targetsPlayer(targetsPlayer),
       speed(Vec2(speed, 0).rotate(angle)),  // Velocidade é constante: calcula uma vez só
       distanceLeft(maxDistance),
       damage(damage) {
@@ -39,9 +40,18 @@ int Bullet::GetDamage() {
     return damage;
 }
 
-// Some ao acertar um Character ou um Zombie. Bullets não colidem entre si.
+// Some ao acertar um alvo válido. Bullets não colidem entre si.
 void Bullet::NotifyCollision(GameObject& other) {
-    if (other.GetComponent<Character>() != nullptr || other.GetComponent<Zombie>() != nullptr) {
+    Character* character = other.GetComponent<Character>();
+    if (character != nullptr) {
+        bool isPlayer = (character == Character::player);
+        if (isPlayer == targetsPlayer) {
+            associated.RequestDelete();
+        }
+        return;
+    }
+
+    if (other.GetComponent<Zombie>() != nullptr && !targetsPlayer) {
         associated.RequestDelete();
     }
 }

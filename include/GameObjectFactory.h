@@ -13,7 +13,7 @@ class GameObjectFactory {
     static GameObject* CreateZombie(float x, float y);
     static GameObject* CreatePlayer(float x, float y);
     static GameObject* CreateGun(std::weak_ptr<GameObject> character);
-    static GameObject* CreateBullet(Vec2 position, float angle, float speed, int damage, float maxDistance);
+    static GameObject* CreateBullet(Vec2 position, float angle, float speed, int damage, float maxDistance, bool targetsPlayer);
 };
 
 #endif

@@ -95,11 +95,11 @@ GameObject* GameObjectFactory::CreateGun(std::weak_ptr<GameObject> character) {
 }
 
 // Cria um projétil centralizado em position, indo na direção de angle (radianos)
-GameObject* GameObjectFactory::CreateBullet(Vec2 position, float angle, float speed, int damage, float maxDistance) {
+GameObject* GameObjectFactory::CreateBullet(Vec2 position, float angle, float speed, int damage, float maxDistance, bool targetsPlayer) {
     GameObject* object = new GameObject();
 
     // Bullet adiciona o SpriteRenderer, que define box.w e box.h
-    object->AddComponent(new Bullet(*object, angle, speed, damage, maxDistance));
+    object->AddComponent(new Bullet(*object, angle, speed, damage, maxDistance, targetsPlayer));
 
     object->box.x = position.x - object->box.w / 2;
     object->box.y = position.y - object->box.h / 2;

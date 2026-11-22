@@ -78,7 +78,7 @@ void Zombie::Render() {}
 // Toma dano das Bullets
 void Zombie::NotifyCollision(GameObject& other) {
     Bullet* bullet = other.GetComponent<Bullet>();
-    if (bullet != nullptr) {
+    if (bullet != nullptr && !bullet->targetsPlayer) {
         Damage(bullet->GetDamage());
     }
 }

@@ -140,7 +140,10 @@ void Character::NotifyCollision(GameObject& other) {
 
     Bullet* bullet = other.GetComponent<Bullet>();
     if (bullet != nullptr) {
-        TakeDamage(bullet->GetDamage());
+        bool isPlayer = (this == player);
+        if (bullet->targetsPlayer == isPlayer) {
+            TakeDamage(bullet->GetDamage());
+        }
         return;
     }
 

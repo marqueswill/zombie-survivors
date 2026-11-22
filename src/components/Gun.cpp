@@ -6,7 +6,9 @@
 #include "GameObjectFactory.h"
 #include "components/Animator.h"
 #include "components/Bullet.h"
+#include "components/Character.h"
 #include "components/SpriteRenderer.h"
+
 // Distância entre o centro do corpo e o centro da arma
 #define GUN_DISTANCE 30.0f
 
@@ -109,7 +111,10 @@ void Gun::Shoot(Vec2 target) {
     Vec2 center = owner->box.getCenter();
     Vec2 muzzle = center + Vec2(GUN_DISTANCE + associated.box.w / 2, 0).rotate(angle);
 
-    Game::GetInstance().GetState().AddObject(GameObjectFactory::CreateBullet(muzzle, angle, BULLET_SPEED, BULLET_DAMAGE, BULLET_MAX_DISTANCE));
+    // Tiro do player acerta os outros; tiro de NPC acerta só o player
+    bool targetsPlayer = (owner->GetComponent<Character>() != Character::player);
+
+    Game::GetInstance().GetState().AddObject(GameObjectFactory::CreateBullet(muzzle, angle, BULLET_SPEED, BULLET_DAMAGE, BULLET_MAX_DISTANCE, targetsPlayer));
 
     shotSound.Play(1);
     cooldownState = 1;
