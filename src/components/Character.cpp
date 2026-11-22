@@ -1,5 +1,6 @@
 #include "components/Character.h"
 
+#include "Camera.h"
 #include "Game.h"
 #include "GameObjectFactory.h"
 #include "components/Animator.h"
@@ -154,6 +155,11 @@ void Character::TakeDamage(int damage) {
 
     if (hp <= 0) {
         deathSound.Play(1);
+
+        // A câmera não pode continuar seguindo um objeto que vai ser deletado
+        if (this == player) {
+            Camera::Unfollow();
+        }
     } else {
         hitSound.Play(1);
     }
