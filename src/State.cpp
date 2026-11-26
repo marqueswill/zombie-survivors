@@ -7,22 +7,24 @@
 #include "GameObjectFactory.h"
 #include "InputManager.h"
 #include "components/Collider.h"
-#include "components/Zombie.h"
+// #include "components/Zombie.h"
 
 State::State() : quitRequested(false), started(false) {
     AddObject(GameObjectFactory::CreateBackground());
 
-    // Borda dos tiles só aparece em build debug, junto com os Colliders
-    #ifdef DEBUG
-        AddObject(GameObjectFactory::CreateTileMap(true));
-    #else
-        AddObject(GameObjectFactory::CreateTileMap(false));
-    #endif
+// Borda dos tiles só aparece em build debug, junto com os Colliders
+#ifdef DEBUG
+    AddObject(GameObjectFactory::CreateTileMap(true));
+#else
+    AddObject(GameObjectFactory::CreateTileMap(false));
+#endif
 
     // Personagem no centro do mapa, com a câmera seguindo ele
     GameObject* player = GameObjectFactory::CreatePlayer(1280, 1280);
     AddObject(player);
     Camera::Follow(player);
+
+    AddObject(GameObjectFactory::CreateWaveSpawner());
 
     music = Music("assets/audio/BGM.wav");
 
@@ -108,12 +110,12 @@ void State::Update(float dt) {
 
     Camera::Update(dt);
 
-    if (input.KeyPress(SPACE_KEY)) {
-        // Criar Zombie na posição atual do mouse
-        float mouseWorldX = input.GetMouseX() + Camera::pos.x;
-        float mouseWorldY = input.GetMouseY() + Camera::pos.y;
-        AddObject(GameObjectFactory::CreateZombie(mouseWorldX, mouseWorldY));
-    }
+    // if (input.KeyPress(SPACE_KEY)) {
+    //     // Criar Zombie na posição atual do mouse
+    //     float mouseWorldX = input.GetMouseX() + Camera::pos.x;
+    //     float mouseWorldY = input.GetMouseY() + Camera::pos.y;
+    //     AddObject(GameObjectFactory::CreateZombie(mouseWorldX, mouseWorldY));
+    // }
 }
 
 // Trata a renderização do estado do jogo.

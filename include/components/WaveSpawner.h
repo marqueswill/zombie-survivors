@@ -5,6 +5,7 @@
 
 #include "GameObject.h"
 #include "Timer.h"
+#include "Vec2.h"
 #include "Wave.h"
 #include "components/Component.h"
 
@@ -22,6 +23,8 @@ class WaveSpawner : public Component {
     std::vector<Wave> waves;
     Timer zombieCooldownTimer;
     int currentWave;
+
+    Vec2 RandomSpawnPosition();
 };
 
 #endif

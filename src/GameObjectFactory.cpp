@@ -8,6 +8,7 @@
 #include "components/SpriteRenderer.h"
 #include "components/TileMap.h"
 #include "components/TileSet.h"
+#include "components/WaveSpawner.h"
 #include "components/Zombie.h"
 
 GameObject* GameObjectFactory::CreateBackground() {
@@ -103,6 +104,15 @@ GameObject* GameObjectFactory::CreateBullet(Vec2 position, float angle, float sp
 
     object->box.x = position.x - object->box.w / 2;
     object->box.y = position.y - object->box.h / 2;
+
+    return object;
+}
+
+// Objeto sem posição que só serve para criar as waves de inimigos
+GameObject* GameObjectFactory::CreateWaveSpawner() {
+    GameObject* object = new GameObject();
+
+    object->AddComponent(new WaveSpawner(*object));
 
     return object;
 }

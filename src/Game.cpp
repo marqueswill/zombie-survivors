@@ -4,9 +4,11 @@
 #define INCLUDE_SDL_MIXER
 #define INCLUDE_SDL_TTF
 
+#include <cstdlib>
+#include <ctime>
+
 #include "Resources.h"
 #include "SDL_include.h"
-
 // Inicialização variáveis estáticas
 Game* Game::instance = nullptr;
 
@@ -18,6 +20,9 @@ Game::Game(std::string title, int width, int height) {
     }
 
     instance = this;
+
+    // Semente para os números aleatórios (posição de spawn dos inimigos)
+    srand(time(NULL));
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) != 0) {
         std::cerr << "Erro ao inicializar SDL: " << SDL_GetError() << std::endl;
