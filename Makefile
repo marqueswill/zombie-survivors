@@ -28,6 +28,13 @@ all:
 	@cmake -S . -B $(BUILD_DIR)
 	@cmake --build $(BUILD_DIR)
 
+debug:
+	@cmake -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug
+	@cmake --build $(BUILD_DIR)
+
+run-debug: debug
+	@./$(EXEC_PATH)
+
 run: all
 	@./$(EXEC_PATH)
 
@@ -50,4 +57,4 @@ clean:
 	@rm -rf $(BUILD_DIR)
 
 
-.PHONY: all run release install update clean
+.PHONY: all run release install update clean debug run-debug

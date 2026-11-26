@@ -11,7 +11,13 @@
 
 State::State() : quitRequested(false), started(false) {
     AddObject(GameObjectFactory::CreateBackground());
-    AddObject(GameObjectFactory::CreateTileMap(true));
+
+    // Borda dos tiles só aparece em build debug, junto com os Colliders
+    #ifdef DEBUG
+        AddObject(GameObjectFactory::CreateTileMap(true));
+    #else
+        AddObject(GameObjectFactory::CreateTileMap(false));
+    #endif
 
     // Personagem no centro do mapa, com a câmera seguindo ele
     GameObject* player = GameObjectFactory::CreatePlayer(1280, 1280);

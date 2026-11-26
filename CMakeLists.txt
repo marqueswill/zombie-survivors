@@ -26,3 +26,6 @@ target_include_directories(zombie_survivors PRIVATE
 # Realiza a linkagem com as bibliotecas da SDL2
 target_link_libraries(zombie_survivors PRIVATE SDL2 SDL2_image SDL2_ttf SDL2_mixer)
 target_compile_options(zombie_survivors PRIVATE -Wall -Wextra -Wpedantic)
+
+# Em build Debug, define DEBUG (usado para desenhar os Colliders)
+target_compile_definitions(zombie_survivors PRIVATE $<$<CONFIG:Debug>:DEBUG>)
