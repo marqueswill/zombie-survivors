@@ -11,7 +11,7 @@ Zombie::Zombie(GameObject& associated)
       hitpoints(30),
       deathSound(Sound("assets/audio/Dead.wav")),
       hit0Sound(Sound("assets/audio/Hit0.wav")) {
-    associated.AddComponent(new Collider(associated));
+    associated.AddComponent(new Collider(associated, {0.6f, 0.8f}));
 }
 
 void Zombie::Damage(int damage) {

@@ -39,7 +39,7 @@ Character::Character(GameObject& associated, std::string sprite)
     animator->AddAnimation("idle_left", Animation(6, 9, 0.2f, SDL_FLIP_HORIZONTAL));
     animator->SetAnimation("idle");
     associated.AddComponent(animator);
-    associated.AddComponent(new Collider(associated));
+    associated.AddComponent(new Collider(associated, {0.5f, 0.8f}, {0, 5}));
 
     if (player == nullptr) {
         player = this;
