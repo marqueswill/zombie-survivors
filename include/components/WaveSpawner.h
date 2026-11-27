@@ -24,7 +24,7 @@ class WaveSpawner : public Component {
     Timer zombieCooldownTimer;
     int currentWave;
 
-    Vec2 RandomSpawnPosition();
+    static Vec2 RandomSpawnPosition();
 };
 
 #endif

@@ -34,6 +34,7 @@ class Character : public Component {
     void Update(float dt);
     void Render();
     void NotifyCollision(GameObject& other);
+    Vec2 GetPosition();  // Centro do personagem no mundo
 
     void Issue(Command task);
 

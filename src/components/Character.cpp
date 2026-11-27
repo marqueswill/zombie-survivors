@@ -167,3 +167,7 @@ void Character::TakeDamage(int damage) {
         hitSound.Play(1);
     }
 }
+
+Vec2 Character::GetPosition() {
+    return associated.box.getCenter();
+}

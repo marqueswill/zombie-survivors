@@ -13,7 +13,7 @@
 
 // Ponto em uma direção aleatória, longe o bastante do centro da tela
 // para o inimigo não aparecer na frente do jogador
-static Vec2 RandomSpawnPosition() {
+Vec2 WaveSpawner::RandomSpawnPosition() {
     Vec2 screenCenter = Camera::pos + Vec2(600, 450);
     float angle = (rand() / (float)RAND_MAX) * 2 * M_PI;
 

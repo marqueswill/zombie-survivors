@@ -4,7 +4,10 @@
 #include "InputManager.h"
 #include "components/Animator.h"
 #include "components/Bullet.h"
+#include "components/Character.h"
 #include "components/Collider.h"
+
+#define ZOMBIE_SPEED 100.0f
 
 Zombie::Zombie(GameObject& associated)
     : Component(associated),
@@ -60,16 +63,29 @@ void Zombie::Update(float dt) {
     if (hit) {
         hitTimer.Update(dt);
 
-        if (hitTimer.Get() >= 0.5f) {
-            hit = false;
-
-            Animator* animator =
-                associated.GetComponent<Animator>();
-
-            if (animator != nullptr) {
-                animator->SetAnimation("walking");
-            }
+        if (hitTimer.Get() < 0.5f) {
+            return;
         }
+
+        hit = false;
+    }
+
+    // Anda em linha reta até o player, com velocidade constante
+    if (Character::player == nullptr) {
+        return;
+    }
+
+    Vec2 direction = Character::player->GetPosition() - associated.box.getCenter();
+
+    if (direction.mod() > 1) {
+        Vec2 step = direction.normalize() * ZOMBIE_SPEED * dt;
+        associated.box.x += step.x;
+        associated.box.y += step.y;
+    }
+
+    Animator* animator = associated.GetComponent<Animator>();
+    if (animator != nullptr) {
+        animator->SetAnimation("walking");
     }
 }
 
