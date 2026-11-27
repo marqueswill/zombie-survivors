@@ -9,12 +9,19 @@
 
 #define ZOMBIE_SPEED 100.0f
 
+int Zombie::zombieCount = 0;
+
 Zombie::Zombie(GameObject& associated)
     : Component(associated),
       hitpoints(30),
       deathSound(Sound("assets/audio/Dead.wav")),
       hit0Sound(Sound("assets/audio/Hit0.wav")) {
     associated.AddComponent(new Collider(associated, {0.6f, 0.8f}));
+    zombieCount++;
+}
+
+Zombie::~Zombie() {
+    zombieCount--;
 }
 
 void Zombie::Damage(int damage) {

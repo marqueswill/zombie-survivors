@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Game.h"
 #include "GameObjectFactory.h"
+#include "components/Zombie.h"
 
 // Distância do centro da tela onde os inimigos nascem.
 // A janela é 1200x900, então metade da diagonal é 750.
@@ -44,6 +45,11 @@ void WaveSpawner::Update(float dt) {
         return;
     }
 
+    // Todos os zumbis da wave já nasceram: espera não sobrar inimigo
+    if (Zombie::zombieCount > 0) {
+        return;
+    }
+    
     currentWave++;
     zombieCounter = 0;
     zombieCooldownTimer.Restart();

@@ -9,10 +9,15 @@
 class Zombie : public Component {
    public:
     Zombie(GameObject& associated);
+    ~Zombie();
+    
     void Damage(int damage);
     void Update(float dt);
     void Render();
     void NotifyCollision(GameObject& other);
+
+    // Quantidade de zumbis existentes, para o WaveSpawner saber quando a wave acabou
+    static int zombieCount;
 
    private:
     int hitpoints;
