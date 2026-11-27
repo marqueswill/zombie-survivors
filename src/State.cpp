@@ -26,6 +26,8 @@ State::State() : quitRequested(false), started(false) {
 
     AddObject(GameObjectFactory::CreateWaveSpawner());
 
+    AddObject(GameObjectFactory::CreateNPC(1600, 1280));
+
     music = Music("assets/audio/BGM.wav");
 
     music.Play(-1);

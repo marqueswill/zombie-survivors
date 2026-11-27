@@ -10,6 +10,7 @@
 #include "components/TileSet.h"
 #include "components/WaveSpawner.h"
 #include "components/Zombie.h"
+#include "components/AIController.h"
 
 GameObject* GameObjectFactory::CreateBackground() {
     GameObject* object = new GameObject();
@@ -113,6 +114,20 @@ GameObject* GameObjectFactory::CreateWaveSpawner() {
     GameObject* object = new GameObject();
 
     object->AddComponent(new WaveSpawner(*object));
+
+    return object;
+}
+
+// Cria um personagem controlado pela IA centralizado em (x, y)
+GameObject* GameObjectFactory::CreateNPC(float x, float y) {
+    GameObject* object = new GameObject();
+
+    object->AddComponent(new Character(*object, "assets/img/NPC.png"));
+
+    object->box.x = x - object->box.w / 2;
+    object->box.y = y - object->box.h / 2;
+
+    object->AddComponent(new AIController(*object));
 
     return object;
 }
