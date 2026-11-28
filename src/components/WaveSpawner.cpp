@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Game.h"
 #include "GameObjectFactory.h"
+#include "components/AIController.h"
 #include "components/Zombie.h"
 
 // Distância do centro da tela onde os inimigos nascem.
@@ -25,8 +26,8 @@ WaveSpawner::WaveSpawner(GameObject& associated)
     : Component(associated), zombieCounter(0), currentWave(0) {
     waves.push_back(Wave(5, 1.5f));
     waves.push_back(Wave(8, 1.0f));
-    waves.push_back(Wave(12, 0.7f));
-    waves.push_back(Wave(20, 0.4f));
+    waves.push_back(Wave(12, 0.7f, 2));
+    waves.push_back(Wave(20, 0.4f, 3));
 }
 
 void WaveSpawner::Update(float dt) {
@@ -34,10 +35,20 @@ void WaveSpawner::Update(float dt) {
 
     Wave& wave = waves[currentWave];
 
+    State& state = Game::GetInstance().GetState();
+
     if (zombieCounter < wave.zombies) {
         if (zombieCooldownTimer.Get() >= wave.cooldown) {
+            // NPCs da wave chegam junto com o primeiro zumbi
+            if (zombieCounter == 0) {
+                for (int i = 0; i < wave.npcs; i++) {
+                    Vec2 pos = RandomSpawnPosition();
+                    state.AddObject(GameObjectFactory::CreateNPC(pos.x, pos.y));
+                }
+            }
+
             Vec2 pos = RandomSpawnPosition();
-            Game::GetInstance().GetState().AddObject(GameObjectFactory::CreateZombie(pos.x, pos.y));
+            state.AddObject(GameObjectFactory::CreateZombie(pos.x, pos.y));
 
             zombieCounter++;
             zombieCooldownTimer.Restart();
@@ -46,10 +57,10 @@ void WaveSpawner::Update(float dt) {
     }
 
     // Todos os zumbis da wave já nasceram: espera não sobrar inimigo
-    if (Zombie::zombieCount > 0) {
+    if (Zombie::zombieCount > 0 || AIController::npcCounter > 0) {
         return;
     }
-    
+
     currentWave++;
     zombieCounter = 0;
     zombieCooldownTimer.Restart();
